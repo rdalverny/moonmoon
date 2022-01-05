@@ -9,17 +9,6 @@
  */
 function register_polyfills()
 {
-    if (!function_exists('hash_equals')) {
-        function hash_equals($known_string, $user_string)
-        {
-            call_user_func_array('_hash_equals', func_get_args());
-        }
-    }
-
-    if (!function_exists('random_bytes')) {
-        // If this function does not exist, it will be exposed
-        // automatically by paragonie/random_compat.
-    }
 }
 
 register_polyfills();

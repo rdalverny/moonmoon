@@ -22,7 +22,7 @@ if (isset($_POST['opml']) || isset($_POST['add'])) {
     $newOpml->title = $PlanetConfig->getName();
 
     // Remove slashes if needed
-    if (get_magic_quotes_gpc() && isset($_POST['opml'])) {
+    if (isset($_POST['opml'])) {
         array_walk_recursive($_POST['opml'], 'removeSlashes');
     }
     // Delete/Save feeds

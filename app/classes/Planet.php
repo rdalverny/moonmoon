@@ -75,29 +75,9 @@ class Planet
      * @param  string $supplied
      * @return bool
      */
-    public static function authenticateUser($known = '', $supplied = '')
+    public static function authenticateUser(string $known = '', string $supplied = '')
     {
-        // The hash_equals function was introduced in PHP 5.6.0. If it's not
-        // existing in the current context (PHP version too old), and to ensure
-        // compatibility with those old interpreters, we'll have to provide
-        // an PHP implementation of this function.
-        if (function_exists('hash_equals')) {
-            return hash_equals($known, $supplied);
-        }
-
-        // Some implementation references can be found on the function comment.
-        $knownLen = mb_strlen($known);
-        if ($knownLen !== mb_strlen($supplied)) {
-            return false;
-        }
-
-        // Ensure that all the characters are the same, and continue until the
-        // end of the string even if an difference was found.
-        for ($i = 0, $comparison = 0; $i < $knownLen; $i++) {
-            $comparison |= ord($known[$i]) ^ ord($supplied[$i]);
-        }
-
-        return ($comparison === 0);
+        return hash_equals($known, $supplied);
     }
 
     /**
