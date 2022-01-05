@@ -1,4 +1,6 @@
-<?php if(!isset($admin_access)) return; ?>
+<?php if (!isset($admin_access)) {
+    return;
+} ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,8 +28,7 @@
             <p><a href="../"><?=_g('Back to main page')?></a></p>
         </header>
 
-        <?php if($admin_access == 1) : ?>
-
+        <?php if ($admin_access == 1) : ?>
         <p class="logout"><a href="logout.php"><?=_g('Logout')?></a></p>
         <nav>
             <ul>

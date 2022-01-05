@@ -102,8 +102,7 @@
         </form>
     </div>
 
-<?php elseif ($status =='installed'): ?>
-
+<?php elseif ($status =='installed') : ?>
     <p><?=_g('Congratulations! Your moonmoon is ready.')?></p>
     <h3><?=_g("What's next?")?></h3>
     <ol>

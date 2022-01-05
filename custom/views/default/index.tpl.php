@@ -32,7 +32,7 @@ header('Content-type: text/html; charset=UTF-8');
                     <p class="article-content"><?=_g('No news, good news.')?></p>
                 </div>
             <?php else : ?>
-                <?php foreach ($items as $item): ?>
+                <?php foreach ($items as $item) : ?>
                     <?php
                     $arParsedUrl = parse_url($item->get_feed()->getWebsite());
                     $host = 'from-' . preg_replace('/[^a-zA-Z0-9]/i', '-', $arParsedUrl['host']);
@@ -60,7 +60,9 @@ header('Content-type: text/html; charset=UTF-8');
                             <?php echo $item->get_content(); ?>
                         </div>
                     </div>
-                    <?php if (++$count == $limit) { break; } ?>
+                    <?php if (++$count == $limit) {
+                        break;
+                    } ?>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>

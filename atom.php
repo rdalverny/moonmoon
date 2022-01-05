@@ -2,7 +2,9 @@
 include_once(__DIR__.'/app/app.php');
 include_once(__DIR__.'/app/lib/Cache.php');
 
-if ($Planet->loadOpml(__DIR__.'/custom/people.opml') == 0) exit;
+if ($Planet->loadOpml(__DIR__.'/custom/people.opml') == 0) {
+    exit;
+}
 
 $Planet->loadFeeds();
 $items = $Planet->getItems();
@@ -22,8 +24,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>';
     <author><name><?=htmlspecialchars($PlanetConfig->getName())?></name></author>
 
 <?php $count = 0; ?>
-<?php foreach ($items as $item): ?>
-
+<?php foreach ($items as $item) : ?>
     <entry>
         <title type="html"><?=htmlspecialchars($item->get_feed()->getName())?> : <?=htmlspecialchars($item->get_title())?></title>
         <id><?=htmlspecialchars($item->get_permalink())?></id>
@@ -35,7 +36,9 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>';
         <content type="html"><![CDATA[<?=$item->get_content()?>]]></content>
     </entry>
 
-<?php if (++$count == $limit) break; ?>
+    <?php if (++$count == $limit) {
+        break;
+    } ?>
 <?php endforeach; ?>
 
 </feed>

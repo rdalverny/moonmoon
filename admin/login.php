@@ -4,7 +4,7 @@ require_once __DIR__ . '/../app/app.php';
 
 if (isset($_POST['password'])) {
     session_regenerate_id();
-    setcookie('auth',md5($_POST['password']));
+    setcookie('auth', md5($_POST['password']));
     header('Location: index.php');
 }
 
