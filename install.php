@@ -40,11 +40,11 @@ if (is_installed()) {
     }
 } else {
     // We start by malking sure we have PHP5 as a base requirement
-    if (version_compare(PHP_VERSION, '5.6.0') >= 0) {
-        $strInstall = installStatus('Server is running at least PHP 5.6', 'OK', true);
+    if (version_compare(PHP_VERSION, '7.4.0') >= 0) {
+        $strInstall = installStatus('Server is running at least PHP 7.4', 'OK', true);
         $strRecommendation = '';
     } else {
-        $strInstall = installStatus('Server is running at least PHP 5.6', 'FAIL', false);
+        $strInstall = installStatus('Server is running at least PHP 7.4', 'FAIL', false);
         $strRecommendation = '<li>Check your server documentation to activate at least PHP 5.6</li>';
     }
 
