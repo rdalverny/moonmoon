@@ -24,7 +24,7 @@ report:
 	$(VENDOR)phpmd \
 		admin,app,custom,docs,tests,atom.php,cron.php,index.php,install.php,postload.php \
 		html \
-		cleancode,codesize,controversial,design,naming,unusedcode > report.html
+		cleancode,codesize,controversial,design,naming,unusedcode > var/phpmd-report.html
 
 serve:
 	php -S localhost:5555 -t .

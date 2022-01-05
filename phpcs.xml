@@ -9,13 +9,4 @@
 	<arg name="encoding" value="utf8"/>
 	<exclude-pattern>vendor/</exclude-pattern>
 	<exclude-pattern>var/</exclude-pattern>
-	<logging>
-  		<log type="coverage-html"
-  			target="var/test-report.html"
-  			lowUpperBound="35"
-       		highLowerBound="70"/>
-		<log type="coverage-text"
-			target="var/test-report.txt"
-			showUncoveredFiles="false"/>
-	</logging>
 </ruleset>
