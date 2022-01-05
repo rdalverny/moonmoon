@@ -5,7 +5,7 @@ error_reporting(0);
 require_once __DIR__.'/../vendor/autoload.php';
 
 $savedConfig  = __DIR__.'/../custom/config.yml';
-$moon_version = file_get_contents(__DIR__.'/../VERSION');
+$moon_version = trim(file_get_contents(__DIR__.'/../VERSION'));
 
 session_start();
 
