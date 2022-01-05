@@ -38,7 +38,7 @@ class PlanetTest extends TestCase
     protected $planet;
     protected $items;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->planet = new Planet();
 

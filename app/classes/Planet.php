@@ -241,10 +241,9 @@ class Planet
     */
     public function _filterItemsByCategory($items, $categories = null)
     {
-        $categories = trim($categories);
-
-        if (empty($categories))
+        if (is_null($categories) or empty(trim($categories))) {
             return $items;
+        }
 
         $categories         = array_map('trim', explode(',', strtolower($categories)));
         $cb_category_filter =

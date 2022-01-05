@@ -4,13 +4,13 @@ require_once 'GuzzleHarness.php';
 
 class InstallTest extends GuzzleHarness {
 
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
         removeCustomFiles();
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         parent::tearDown();
         removeCustomFiles();
@@ -20,14 +20,14 @@ class InstallTest extends GuzzleHarness {
     {
         $res = $this->client->get('/index.php');
         $this->assertEquals(200, $res->getStatusCode());
-        $this->assertContains('install moonmoon', (string) $res->getBody());
+        $this->assertStringContainsString('install moonmoon', (string) $res->getBody());
     }
 
     public function test_install_page_loads_without_error()
     {
         $res = $this->client->get('/install.php');
         $this->assertEquals(200, $res->getStatusCode());
-        $this->assertContains('Administrator password', (string) $res->getBody());
+        $this->assertStringContainsString('Administrator password', (string) $res->getBody());
     }
 
     /**
@@ -56,6 +56,6 @@ class InstallTest extends GuzzleHarness {
             'form_params' => $data
         ]);
         $this->assertEquals(200, $res->getStatusCode());
-        $this->assertContains('Your moonmoon is ready.', (string) $res->getBody());
+        $this->assertStringContainsString('Your moonmoon is ready.', (string) $res->getBody());
     }
 }
