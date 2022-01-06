@@ -128,7 +128,7 @@ class Planet
                 $opml_person['name'],
                 $opml_person['feed'],
                 $opml_person['website'],
-                $opml_person['isDown']
+                $opml_person['isDown'] ?? 0
             );
             $this->addPerson($person);
         }

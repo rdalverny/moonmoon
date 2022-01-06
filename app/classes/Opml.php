@@ -7,6 +7,9 @@ class Opml
 
     public $title = '';
     public $entries = array();
+    public $ownerName = '';
+    public $ownerEmail = '';
+    public $ownerId = '';
     private $map  =
         array(
             'URL'         => 'website',
