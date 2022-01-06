@@ -17,7 +17,7 @@ $root = __DIR__ . '/../../';
 
 require_once __DIR__ . '/../app.php';
 
-if ($conf['debug'] !== true) {
+if (!$PlanetConfig->getDebug()) {
     die('Please enable the debug mode to use extract.php.');
 }
 

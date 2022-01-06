@@ -46,7 +46,7 @@ if (isset($_POST['opml']) || isset($_POST['add'])) {
             $feed = new SimplePie();
             $feed->enable_cache(false);
             $feed->set_feed_url($_POST['url']);
-            if ($conf['checkcerts'] === false) {
+            if ($PlanetConfig->checkcerts === false) {
                 $feed->set_curl_options([
                     CURLOPT_SSL_VERIFYHOST => false,
                     CURLOPT_SSL_VERIFYPEER => false

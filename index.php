@@ -21,7 +21,7 @@ $cache_key      = (count($items)) ? $items[0]->get_id()   : '';
 $last_modified  = (count($items)) ? $items[0]->get_date() : '';
 $cache_duration = $PlanetConfig->getOutputTimeout()*60;
 
-Cache::setStore(__DIR__ . '/' . $conf['cachedir'] . '/');
+Cache::setStore(__DIR__ . '/' . $PlanetConfig->cachedir . '/');
 
 if (isset($_GET['type']) && $_GET['type'] == 'atom10') {
     /* XXX: Redirect old ATOM feeds to new url to make sure our users don't
@@ -45,7 +45,7 @@ if (!OutputCache::Start($_GET['type'], $cache_key, $cache_duration)) {
     OutputCache::End();
 }
 
-if ($conf['debug'] === true) {
+if ($PlanetConfig->getDebug() === true) {
     echo "<!-- \$Planet->errors:\n";
     var_dump($Planet->errors);
     echo "-->";

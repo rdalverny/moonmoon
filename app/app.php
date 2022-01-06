@@ -9,6 +9,8 @@ $moon_version = trim(file_get_contents(__DIR__.'/../VERSION'));
 
 session_start();
 
+$PlanetConfig = new PlanetConfig();
+
 if (is_installed()) {
     $conf = Spyc::YAMLLoad($savedConfig);
 
@@ -22,10 +24,10 @@ if (is_installed()) {
     $PlanetConfig = new PlanetConfig($conf);
     $Planet = new Planet($PlanetConfig);
 
-    if ($conf['debug']) {
+    if ($PlanetConfig->getDebug()) {
         error_reporting(E_ALL);
     }
 }
 
-$l10n = new Simplel10n($conf['locale']);
+$l10n = new Simplel10n($PlanetConfig->locale);
 $csrf = new CSRF();
