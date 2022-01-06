@@ -48,6 +48,23 @@ if (is_installed()) {
         $strRecommendation = '<li>Check your server documentation to activate at least PHP 5.6</li>';
     }
 
+    $needed_extensions = [
+        'dom' => '',
+        'libxml' => '',
+        'xml' => '',
+        'xmlreader' => '',
+        'pcre' => '',
+        'tokenizer' => '',
+    ];
+    foreach ($needed_extensions as $ext => $reason) {
+        if (extension_loaded($ext) === true) {
+            $strInstall .= installStatus("PHP extension <code>$ext</code> is present", 'OK', true);
+        } else {
+            $strInstall .= installStatus("PHP extension <code>$ext</code> is present", 'FAIL', false);
+            $strRecommendation .= "<li>Install PHP extension <code>$ext</code> on your server</li>";
+        }
+    }
+
     // Writable file requirements
     $tests = array(
         '/custom',
