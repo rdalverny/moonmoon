@@ -9,7 +9,7 @@ class GuzzleHarness extends TestCase
     /** @var GuzzleHttp\Client */
     protected $client = null;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->client = new Client([
             'base_uri' => 'http://127.0.0.1:8081',

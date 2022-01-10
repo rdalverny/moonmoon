@@ -14,10 +14,11 @@ It does not archive articles, it does not do comments nor votes.
 
 Requirements
 ------------
-You will need a web hosting with at least PHP 5.6 (PHP 7 is also supported).
+You will need a web hosting with at least PHP 7.4 (8.0 and 8.1 are supported too).
 
 If you are installing moonmoon on a Linux private server (VPS, dedicated host),
-please note that you will need to install the package `php-xml`.
+please note that you will need to have installed the following packages:
+`php-curl`, `php-mbstring`, `php-xml`, `php-xmlreader`.
 
 Installing
 ----------
