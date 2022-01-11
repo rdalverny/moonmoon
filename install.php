@@ -10,7 +10,7 @@ function installStatus($str, $msg, $result)
 }
 
 // If the config file exists and the auth variables are set, moonmoon is already installed
-if (is_installed()) {
+if ($PlanetConfig::isInstalled()) {
     $status = 'installed';
 } elseif (isset($_POST['url'])) {
     // Do no try to use the file of an invalid locale

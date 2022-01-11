@@ -12,9 +12,11 @@ if (!$csrf->verify($_POST['_csrf'], 'feedmanage')) {
     die('Invalid CSRF token!');
 }
 
+$opmlFile = $PlanetConfig->getOpmlFile();
+
 if (isset($_POST['opml']) || isset($_POST['add'])) {
     // Load old OPML
-    $oldOpml = OpmlManager::load(__DIR__.'/../custom/people.opml');
+    $oldOpml = OpmlManager::load($opmlFile);
     if ($PlanetConfig->getName() === '') {
         $PlanetConfig->setName($oldOpml->getTitle());
     }
@@ -46,7 +48,7 @@ if (isset($_POST['opml']) || isset($_POST['add'])) {
             $feed = new SimplePie();
             $feed->enable_cache(false);
             $feed->set_feed_url($_POST['url']);
-            if ($conf['checkcerts'] === false) {
+            if (!$PlanetConfig->checkCertificates()) {
                 $feed->set_curl_options([
                     CURLOPT_SSL_VERIFYHOST => false,
                     CURLOPT_SSL_VERIFYPEER => false
@@ -65,10 +67,10 @@ if (isset($_POST['opml']) || isset($_POST['add'])) {
     }
 
     // Backup old OPML
-    OpmlManager::backup(__DIR__.'/../custom/people.opml');
+    OpmlManager::backup($opmlFile);
 
     // Save new OPML
-    OpmlManager::save($newOpml, __DIR__.'/../custom/people.opml');
+    OpmlManager::save($newOpml, $opmlFile);
 }
 header("Location: index.php");
 die();

@@ -4,7 +4,7 @@ require_once __DIR__ . '/../app/app.php';
 require_once __DIR__ . '/inc/auth.inc.php';
 
 
-$opml         = OpmlManager::load(__DIR__ . '/../custom/people.opml');
+$opml         = OpmlManager::load($PlanetConfig->getOpmlFile());
 $opml_people  = $opml->getPeople();
 $page_id      = 'admin-admin';
 $header_extra = <<<"HTML"

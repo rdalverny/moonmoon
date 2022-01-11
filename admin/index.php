@@ -17,7 +17,7 @@ if (is_file($config_file)) {
 $Planet = new Planet($PlanetConfig);
 
 //Load
-if (0 < $Planet->loadOpml(__DIR__ . '/../custom/people.opml')) {
+if (0 < $Planet->loadOpml($PlanetConfig->getOpmlFile())) {
     $Planet->loadFeeds();
     $items = $Planet->getItems();
 }

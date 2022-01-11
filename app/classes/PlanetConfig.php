@@ -8,6 +8,9 @@ class PlanetConfig
 
     protected $conf = [];
 
+    private ?string $opmlFile = null;
+    private ?string $cacheDir = null;
+
     public static $defaultConfig = [
         'url'           => 'http://www.example.com/',
         'name'          => '',
@@ -33,6 +36,43 @@ class PlanetConfig
     {
         $default = $useDefaultConfig ? self::$defaultConfig : array();
         $this->conf = $this->merge($default, $userConfig);
+    }
+
+    /**
+     * @return static
+     */
+    public static function load(string $dir)
+    {
+        $config = new PlanetConfig;
+        $configFile = realpath($dir . '/../custom/config.yml');
+
+        if (self::isInstalled()) {
+            $conf = Spyc::YAMLLoad($configFile);
+
+            // this is a check to upgrade older config file without l10n
+            if (!isset($conf['locale'])) {
+                $resetPlanetConfig = new PlanetConfig($conf);
+                file_put_contents($configFile, $resetPlanetConfig->toYaml());
+                $conf = Spyc::YAMLLoad($configFile);
+
+                return $resetPlanetConfig;
+            }
+
+            $config = new PlanetConfig($conf);
+        }
+
+        return $config;
+    }
+
+    /**
+     * Is moonmoon installed?
+     *
+     * @return bool
+     */
+    public static function isInstalled() : bool
+    {
+        return file_exists(custom_path('config.yml')) &&
+            file_exists(custom_path('people.opml'));
     }
 
     /**
@@ -65,6 +105,22 @@ class PlanetConfig
     public function getCacheTimeout()
     {
         return $this->conf['refresh'];
+    }
+
+    public function getCacheDir()
+    {
+        if (is_null($this->cacheDir)) {
+            $this->cacheDir = realpath(__DIR__ . '/../../'.$this->conf['cachedir']);
+        }
+        return $this->cacheDir;
+    }
+
+    public function getOpmlFile()
+    {
+        if (is_null($this->opmlFile)) {
+            $this->opmlFile = realpath(__DIR__ . '/../../custom/people.opml');
+        }
+        return $this->opmlFile;
     }
 
     public function getOutputTimeout()
@@ -125,6 +181,16 @@ class PlanetConfig
     public function getDebug()
     {
         return $this->conf['debug'];
+    }
+
+    public function checkCertificates()
+    {
+        return $this->conf['checkcerts'];
+    }
+
+    public function getLocale()
+    {
+        return $this->conf['locale'];
     }
 
     /**

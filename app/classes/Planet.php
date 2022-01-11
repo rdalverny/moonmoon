@@ -114,7 +114,7 @@ class Planet
      * @param  string  $file File to load the OPML from.
      * @return integer Number of people loaded.
      */
-    public function loadOpml($file)
+    public function loadOpml(string $file)
     {
         if (!is_file($file)) {
             $this->errors[] = new PlanetError(3, $file.' is missing.');

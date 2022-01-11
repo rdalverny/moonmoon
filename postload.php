@@ -2,11 +2,11 @@
 
 require_once __DIR__.'/app/app.php';
 
-if (!is_installed()) {
+if (!$PlanetConfig::isInstalled()) {
     die();
 }
 
-$xml = new SimpleXMLElement(file_get_contents(custom_path('people.opml')));
+$xml = new SimpleXMLElement(file_get_contents($PlanetConfig->getOpmlFile()));
 
 foreach ($xml->xpath('/opml/body/outline[@xmlUrl]') as $element) {
     if ($element->attributes()->xmlUrl == $_GET['url']) {

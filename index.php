@@ -3,14 +3,14 @@ include_once(__DIR__.'/app/app.php');
 include_once(__DIR__.'/app/classes/Cache.php');
 
 //Installed ?
-if (!isset($Planet)) {
+if (!$PlanetConfig::isInstalled()) {
     echo '<p>' . _g('You might want to <a href="install.php">install moonmoon</a>.') . '</p>';
     exit;
 }
 
 //Load from cache
 $items = array();
-if (0 < $Planet->loadOpml(__DIR__.'/custom/people.opml')) {
+if (0 < $Planet->loadOpml($PlanetConfig->getOpmlFile())) {
     $Planet->loadFeeds();
     $items = $Planet->getItems();
 }
@@ -21,7 +21,7 @@ $cache_key      = (count($items)) ? $items[0]->get_id()   : '';
 $last_modified  = (count($items)) ? $items[0]->get_date() : '';
 $cache_duration = $PlanetConfig->getOutputTimeout()*60;
 
-Cache::setStore(__DIR__ . '/' . $conf['cachedir'] . '/');
+Cache::setStore($PlanetConfig->getCacheDir());
 
 if (isset($_GET['type']) && $_GET['type'] == 'atom10') {
     /* XXX: Redirect old ATOM feeds to new url to make sure our users don't
@@ -45,7 +45,7 @@ if (!OutputCache::Start($_GET['type'], $cache_key, $cache_duration)) {
     OutputCache::End();
 }
 
-if ($conf['debug'] === true) {
+if ($PlanetConfig->getDebug()) {
     echo "<!-- \$Planet->errors:\n";
     var_dump($Planet->errors);
     echo "-->";

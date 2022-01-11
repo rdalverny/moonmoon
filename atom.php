@@ -2,7 +2,7 @@
 include_once(__DIR__.'/app/app.php');
 include_once(__DIR__.'/app/classes/Cache.php');
 
-if ($Planet->loadOpml(__DIR__.'/custom/people.opml') == 0) {
+if ($Planet->loadOpml($PlanetConfig->getOpmlFile()) == 0) {
     exit;
 }
 
