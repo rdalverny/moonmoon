@@ -3,9 +3,15 @@
 class Opml
 {
     private $_xml = null;
-    private $_currentTag = '';
+    private string $_currentTag = '';
 
-    public $title = '';
+    public string $ownerName = '';
+    public string $ownerEmail = '';
+    public string $ownerId = '';
+
+    public string $title = '';
+
+    /** @var array<int, string> */
     public $entries = array();
     private $map  =
         array(
@@ -19,14 +25,18 @@ class Opml
         );
 
 
-    public function parse($data)
+    /**
+     * @param string $data
+     * @return array<int, string>
+    */
+    public function parse(string $data) : array
     {
         $this->_xml = xml_parser_create('UTF-8');
         //xml_parser_set_option($this->_xml, XML_OPTION_CASE_FOLDING, false);
         //xml_parser_set_option($this->_xml, XML_OPTION_SKIP_WHITE, true);
         xml_set_object($this->_xml, $this);
-        xml_set_element_handler($this->_xml, '_openTag', '_closeTag');
-        xml_set_character_data_handler($this->_xml, '_cData');
+        xml_set_element_handler($this->_xml, [$this, '_openTag'], [$this, '_closeTag']);
+        xml_set_character_data_handler($this->_xml, [$this, '_cData']);
 
         xml_parse($this->_xml, $data);
         xml_parser_free($this->_xml);
@@ -34,7 +44,10 @@ class Opml
     }
 
 
-    private function _openTag($p, $tag, $attrs)
+    /**
+     * @param array<string, string> $attrs
+    */
+    private function _openTag($p, string $tag, array $attrs) : void
     {
         $this->_currentTag = $tag;
 
@@ -48,24 +61,38 @@ class Opml
         }
     }
 
-    private function _closeTag($p, $tag)
+    private function _closeTag($p, string $tag) : void
     {
         $this->_currentTag = '';
     }
 
-    private function _cData($p, $cdata)
+    private function _cData($p, string $cdata) : void
     {
-        if ($this->_currentTag == 'TITLE') {
-            $this->title = $cdata;
+        switch ($this->_currentTag) {
+            case 'TITLE':
+                $this->title = $cdata;
+                break;
+            case 'OWNERNAME':
+                $this->ownerName = $cdata;
+                break;
+            case 'OWNEREMAIL':
+                $this->ownerEmail = $cdata;
+                break;
+            case 'OWNERID':
+                $this->ownerId = $cdata;
+                break;
         }
     }
 
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    public function getPeople()
+    /**
+     * @return array<int, string>
+    */
+    public function getPeople() : array
     {
         return $this->entries;
     }

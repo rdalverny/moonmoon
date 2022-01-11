@@ -29,15 +29,32 @@ class OpmlManager
     public static function save($opml, $file)
     {
         $out = '<?xml version="1.0"?>'."\n";
-        $out.= '<opml version="1.1">'."\n";
+        $out.= '<opml version="2.0">'."\n";
         $out.= '<head>'."\n";
         $out.= '<title>'.htmlspecialchars($opml->getTitle()).'</title>'."\n";
-        $out.= '<dateCreated>'.date('c').'</dateCreated>'."\n";
-        $out.= '<dateModified>'.date('c').'</dateModified>'."\n";
+        $out.= '<dateCreated>'.gmdate('c').'</dateCreated>'."\n";
+        $out.= '<dateModified>'.gmdate('c').'</dateModified>'."\n";
+        if ($opml->ownerName != '') {
+            $out.= '<ownerName>'.htmlspecialchars($opml->ownerName).'</ownerName>'."\n";
+        }
+        if ($opml->ownerEmail != '') {
+            $out.= '<ownerEmail>'.htmlspecialchars($opml->ownerEmail).'</ownerEmail>'."\n";
+        }
+        if ($opml->ownerId != '') {
+            $out.= '<ownerId>'.htmlspecialchars($opml->ownerId).'</ownerId>'."\n";
+        }
+        $out.= '<docs>http://opml.org/spec2.opml</docs>'."\n";
+
         $out.= '</head>'."\n";
         $out.= '<body>'."\n";
         foreach ($opml->entries as $person) {
-            $out.= '<outline text="' . htmlspecialchars($person['name'], ENT_QUOTES) . '" htmlUrl="' . htmlspecialchars($person['website'], ENT_QUOTES) . '" xmlUrl="' . htmlspecialchars($person['feed'], ENT_QUOTES) . '" isDown="' . htmlspecialchars($person['isDown'] ?? '', ENT_QUOTES) . '"/>'."\n";
+            $out .= sprintf(
+                '<outline text="%s" htmlUrl="%s" xmlUrl="%s" isDown="%s" />',
+                htmlspecialchars($person['name'], ENT_QUOTES),
+                htmlspecialchars($person['website'], ENT_QUOTES),
+                htmlspecialchars($person['feed'], ENT_QUOTES),
+                htmlspecialchars($person['isDown'] ?? '', ENT_QUOTES)
+            ) . "\n";
         }
         $out.= '</body>'."\n";
         $out.= '</opml>';
