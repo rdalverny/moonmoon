@@ -19,6 +19,12 @@ $header_extra = <<<"HTML"
 
 HTML;
 
+$repo_url = 'https://github.com/moonmoon/moonmoon';
+$releases_url = "$repo_url/releases";
+$link_url = "<a href='$releases_url'>$releases_url</a>";
+$version_current = str_replace('%s', $moon_version, $l10n->getString('Your moonmoon instance version is %s.'));
+$version_action = str_replace('%s', $link_url, $l10n->getString('You can check for a more recent version on: %s.'));
+
 $page_content = <<<"FRAGMENT"
 
             <div class="widget">
@@ -35,6 +41,14 @@ $page_content = <<<"FRAGMENT"
                 <form action="changepassword.php" method="post" id="frmPassword">
                     <input type="hidden" value="{$csrf->generate('frmPassword')}" name="_csrf">
                     <p><label for="password">{$l10n->getString('New password:')}</label> <input type="password" class="text" value="" name="password" id="password" size="20" /> <input type="submit" class="submit delete" name="changepwd" id="changepwd" value="{$l10n->getString('Change password')}" /></p>
+                </form>
+            </div>
+
+            <div class="widget">
+                <h3>{$l10n->getString('Upgrade moonmoon')}</h3>
+                <form>
+                <p>{$version_current}</p>
+                <p>{$version_action}</p>
                 </form>
             </div>
 
