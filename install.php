@@ -49,6 +49,26 @@ if (is_installed()) {
         $strRecommendation = '<li>Check your server documentation to activate at least PHP 7.2</li>';
     }
 
+    $required_extensions = [
+        'dom',       // moonmoon, simplepie
+        'curl',      // simplepie
+        'iconv',     // simplepie
+        'libxml',    // moonmoon, simplepie
+        'mbstring',  // simplepie
+        'pcre',      // moonmoon
+        'xml',       // moonmoon, simplepie
+        'xmlreader', // moonmoon, simplepie
+        'zlib'       // simplepie
+    ];
+    foreach ($required_extensions as $ext) {
+        if (extension_loaded($ext) === true) {
+            $strInstall .= installStatus("PHP extension <code>$ext</code> is present", 'OK', true);
+        } else {
+            $strInstall .= installStatus("PHP extension <code>$ext</code> is present", 'FAIL', false);
+            $strRecommendation .= "<li>Install PHP extension <code>$ext</code> on your server</li>";
+        }
+    }
+
     // Writable file requirements
     $tests = array(
         '/custom',
