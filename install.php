@@ -78,9 +78,12 @@ if ($PlanetConfig::isInstalled()) {
 
     // We now test that all required files and directories are writable.
     foreach ($tests as $v) {
-        if (touch(__DIR__ . $v)) {
+        $filename = __DIR__ . $v;
+        if (touch($filename)) {
             $strInstall .= installStatus("<code>$v</code> is writable", 'OK', true);
-            unlink(__DIR__.$v);
+            if (is_file($filename)) {
+                unlink($filename);
+            }
         } else {
             $strInstall .= installStatus("<code>$v</code> is writable", 'FAIL', false);
             $strRecommendation .= "<li>Make <code>$v</code> writable with CHMOD</li>";

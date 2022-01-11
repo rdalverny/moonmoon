@@ -112,7 +112,9 @@ class Cache
             return true;
         }
 
-        @unlink($filename);
+        if (is_file($filename)) {
+            unlink($filename);
+        }
 
         return false;
     }

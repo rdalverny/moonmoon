@@ -13,8 +13,9 @@ if (isset($_POST['purge'])) {
             continue;
         }
 
-        if (filemtime($dir . DIRECTORY_SEPARATOR . $filename) < time()) {
-            @unlink($dir . DIRECTORY_SEPARATOR . $filename);
+        $file = $dir . DIRECTORY_SEPARATOR . $filename;
+        if (is_file($file) && filemtime($file) < time()) {
+            unlink($file);
         }
     }
 }

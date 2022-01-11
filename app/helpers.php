@@ -71,7 +71,7 @@ function removeCustomFiles()
     ];
 
     foreach ($toRemove as $path) {
-        if (file_exists($path)) {
+        if (is_file($path)) {
             unlink($path);
         }
     }

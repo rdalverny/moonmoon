@@ -19,7 +19,7 @@ if (0 < $Planet->loadOpml($PlanetConfig->getOpmlFile())) {
 Cache::$enabled = false;
 $cache_key      = (count($items)) ? $items[0]->get_id()   : '';
 $last_modified  = (count($items)) ? $items[0]->get_date() : '';
-$cache_duration = $PlanetConfig->getOutputTimeout()*60;
+$cache_duration = $PlanetConfig->getOutputTimeout() * 60;
 
 Cache::setStore($PlanetConfig->getCacheDir());
 
@@ -36,7 +36,7 @@ if (isset($_GET['type']) && $_GET['type'] == 'atom10') {
 //Go display
 if (!isset($_GET['type']) ||
     !is_file(__DIR__.'/custom/views/'.$_GET['type'].'/index.tpl.php') ||
-    strpos($_GET['type'], DIRECTORY_SEPARATOR) || strpos($GET['type'], '..')) {
+    strpos($_GET['type'], DIRECTORY_SEPARATOR) || strpos($_GET['type'], '..')) {
     $_GET['type'] = 'default';
 }
 

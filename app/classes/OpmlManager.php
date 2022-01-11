@@ -37,7 +37,7 @@ class OpmlManager
         $out.= '</head>'."\n";
         $out.= '<body>'."\n";
         foreach ($opml->entries as $person) {
-            $out.= '<outline text="' . htmlspecialchars($person['name'], ENT_QUOTES) . '" htmlUrl="' . htmlspecialchars($person['website'], ENT_QUOTES) . '" xmlUrl="' . htmlspecialchars($person['feed'], ENT_QUOTES) . '" isDown="' . htmlspecialchars($person['isDown'], ENT_QUOTES) . '"/>'."\n";
+            $out.= '<outline text="' . htmlspecialchars($person['name'], ENT_QUOTES) . '" htmlUrl="' . htmlspecialchars($person['website'], ENT_QUOTES) . '" xmlUrl="' . htmlspecialchars($person['feed'], ENT_QUOTES) . '" isDown="' . htmlspecialchars($person['isDown'] ?? '', ENT_QUOTES) . '"/>'."\n";
         }
         $out.= '</body>'."\n";
         $out.= '</opml>';
