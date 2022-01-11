@@ -2,7 +2,8 @@
 
 require_once 'GuzzleHarness.php';
 
-class InstallTest extends GuzzleHarness {
+class InstallTest extends GuzzleHarness
+{
 
     public function setUp() : void
     {

@@ -51,7 +51,7 @@ class Planet
      *
      * @param PlanetConfig $config
      */
-    public function __construct($config=null)
+    public function __construct($config = null)
     {
         $this->config = $config === null ? new PlanetConfig() : $config;
 
@@ -87,7 +87,8 @@ class Planet
     {
         $this->items = $this->_filterItemsByCategory(
             $this->items,
-            $this->config->getCategories());
+            $this->config->getCategories()
+        );
 
         return $this->items;
     }
@@ -122,7 +123,7 @@ class Planet
 
         $opml = OpmlManager::load($file);
         $opml_people = $opml->getPeople();
-        foreach ($opml_people as $opml_person){
+        foreach ($opml_people as $opml_person) {
             $person = new PlanetFeed(
                 $opml_person['name'],
                 $opml_person['feed'],
@@ -146,7 +147,6 @@ class Planet
                 $feed->init();
                 $this->items = array_merge($this->items, $feed->get_items());
             }
-
         }
         $this->sort();
     }
@@ -156,7 +156,7 @@ class Planet
      *
      * @param float $max_load Percentage of feeds to load
      */
-    public function download($max_load=0.1)
+    public function download($max_load = 0.1)
     {
         $max_load_feeds = ceil(count($this->people) * $max_load);
         $opml = OpmlManager::load(__DIR__.'/../../custom/people.opml');
@@ -184,7 +184,7 @@ class Planet
             $isDown = '';
 
             // http://simplepie.org/wiki/reference/simplepie/merge_items ?
-            if (($feed->data) && ($feed->get_item_quantity() > 0)){
+            if (($feed->data) && ($feed->get_item_quantity() > 0)) {
                 $items = $feed->get_items();
                 $this->items = array_merge($this->items, $items);
             } else {
@@ -221,20 +221,21 @@ class Planet
     */
     public function _filterItemsByCategory($items, $categories = null)
     {
-        if (is_null($categories) or empty(trim($categories)))
-        {
+        if (is_null($categories) or empty(trim($categories))) {
             return $items;
         }
 
         $categories         = array_map('trim', explode(',', strtolower($categories)));
         $cb_category_filter =
-            function ($item) use ($categories)
-            {
-                if (!is_array($item_categories = $item->get_categories()))
+            function ($item) use ($categories) {
+                if (!is_array($item_categories = $item->get_categories())) {
                     return false;
+                }
 
                 $item_categories = array_map(
-                    function ($i) { return strtolower($i->get_label()); },
+                    function ($i) {
+                        return strtolower($i->get_label());
+                    },
                     $item_categories
                 );
 

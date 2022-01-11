@@ -2,9 +2,9 @@
 
 /**
  * Register polyfills for old PHP versions.
- * 
+ *
  * This way, the real function will only be called if it
- * is available, and we won't force the use of our own 
+ * is available, and we won't force the use of our own
  * implementation.
  */
 function register_polyfills()
@@ -63,7 +63,7 @@ function is_installed()
  * @param  string $comment
  * @return string
  */
-function _g($str, $comment='')
+function _g($str, $comment = '')
 {
     return Simplel10n::getString($str, $comment);
 }
@@ -86,4 +86,3 @@ function removeCustomFiles()
         }
     }
 }
-

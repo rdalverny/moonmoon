@@ -16,5 +16,4 @@ class GuzzleHarness extends TestCase
             'timeout' => 1,
         ]);
     }
-
 }

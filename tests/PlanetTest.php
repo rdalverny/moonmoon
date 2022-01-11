@@ -2,16 +2,17 @@
 
 use PHPUnit\Framework\TestCase;
 
-class FoolCategory {
+class FoolCategory
+{
 
     protected $name;
 
-    function __construct($name)
+    public function __construct($name)
     {
         $this->name = $name;
     }
 
-    function get_label()
+    public function get_label()
     {
         return $this->name;
     }
@@ -21,13 +22,15 @@ class FoolItem
 {
     protected $categories;
 
-    function __construct($categories)
+    public function __construct($categories)
     {
-        foreach ($categories as $c)
+        foreach ($categories as $c) {
             $this->categories[] = new FoolCategory($c);
+        }
     }
 
-    function get_categories() {
+    public function get_categories()
+    {
         return $this->categories;
     }
 }
@@ -80,5 +83,4 @@ class PlanetTest extends TestCase
         $this->assertEquals(count($this->planet->_filterItemsByCategory($this->items, 'catA,catB,catC')), 4);
         $this->assertEquals(count($this->planet->_filterItemsByCategory($this->items, 'catA, catB')), 3);
     }
-
 }

@@ -1,9 +1,9 @@
 <?php
 $count = 0;
-$today = Array();
-$week = Array();
-$month = Array();
-$older = Array();
+$today = array();
+$week = array();
+$month = array();
+$older = array();
 $now = time();
 
 foreach ($items as $item) {
@@ -45,11 +45,11 @@ header('Content-type: text/html; charset=UTF-8');
                 <p class="article-content"><?=_g('No news, good news.')?></p>
             </div>
             <?php endif; ?>
-            <?php if (count($today)): ?>
+            <?php if (count($today)) : ?>
             <div class="article">
                 <h2><?=_g('Today')?></h2>
                 <ul>
-                <?php foreach ($today as $item): ?>
+                <?php foreach ($today as $item) : ?>
                     <?php $feed = $item->get_feed(); ?>
                     <li>
                     <a href="<?php echo $feed->getWebsite() ?>" class="source"><?php echo $feed->getName() ?></a> :
@@ -60,11 +60,11 @@ header('Content-type: text/html; charset=UTF-8');
             </div>
             <?php endif; ?>
 
-            <?php if (count($week)): ?>
+            <?php if (count($week)) : ?>
             <div class="article">
                 <h2><?=_g('This week')?></h2>
                 <ul>
-                <?php foreach ($week as $item): ?>
+                <?php foreach ($week as $item) : ?>
                     <?php $feed = $item->get_feed(); ?>
                     <li>
                     <a href="<?php echo $feed->getWebsite() ?>" class="source"><?php echo $feed->getName() ?></a> :
@@ -75,11 +75,11 @@ header('Content-type: text/html; charset=UTF-8');
             </div>
             <?php endif; ?>
 
-            <?php if (count($month)): ?>
+            <?php if (count($month)) : ?>
             <div class="article">
                 <h2><?=_g('This month')?></h2>
                 <ul>
-                <?php foreach ($month as $item): ?>
+                <?php foreach ($month as $item) : ?>
                     <?php $feed = $item->get_feed(); ?>
                     <li>
                     <a href="<?php echo $feed->getWebsite() ?>" class="source"><?php echo $feed->getName() ?></a> :
@@ -90,11 +90,11 @@ header('Content-type: text/html; charset=UTF-8');
             </div>
             <?php endif; ?>
 
-            <?php if (count($older)): ?>
+            <?php if (count($older)) : ?>
             <div class="article">
                 <h2><?=_g('Older items')?></h2>
                 <ul>
-                <?php foreach ($older as $item): ?>
+                <?php foreach ($older as $item) : ?>
                     <?php $feed = $item->get_feed(); ?>
                     <li>
                     <a href="<?php echo $feed->getWebsite() ?>" class="source"><?php echo $feed->getName() ?></a> :

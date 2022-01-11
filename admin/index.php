@@ -6,7 +6,7 @@ require_once __DIR__ . '/inc/auth.inc.php';
 //Load configuration
 $config_file = __DIR__ . '/../custom/config.yml';
 
-if (is_file($config_file)){
+if (is_file($config_file)) {
     $conf = Spyc::YAMLLoad($config_file);
     $PlanetConfig = new PlanetConfig($conf);
 } else {
@@ -107,9 +107,9 @@ ob_start();
                     <tbody>
                         <?php
                         $i = 0;
-                        foreach ($everyone as $opml_person){
-                        $i++;
-                        ?>
+                        foreach ($everyone as $opml_person) {
+                            $i++;
+                            ?>
                         <tr class="<?=($i%2)?'odd':'even'; ?>">
                             <td><input type="checkbox" class="checkbox" name="opml[<?=$i; ?>][delete]" /></td>
                             <td><input type="text" size="10" class="text" name="opml[<?=$i; ?>][name]" value="<?=$opml_person->getName(); ?>" /></td>

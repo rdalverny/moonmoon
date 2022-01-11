@@ -13,7 +13,7 @@ if (is_installed()) {
     $conf = Spyc::YAMLLoad($savedConfig);
 
     // this is a check to upgrade older config file without l10n
-    if(!isset($conf['locale'])) {
+    if (!isset($conf['locale'])) {
         $resetPlanetConfig = new PlanetConfig($conf);
         file_put_contents($savedConfig, $resetPlanetConfig->toYaml());
         $conf = Spyc::YAMLLoad($savedConfig);
@@ -25,7 +25,6 @@ if (is_installed()) {
     if ($conf['debug']) {
         error_reporting(E_ALL);
     }
-
 }
 
 $l10n = new Simplel10n($conf['locale']);

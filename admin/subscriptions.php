@@ -3,7 +3,8 @@
 require_once __DIR__ . '/../app/app.php';
 require_once __DIR__ . '/inc/auth.inc.php';
 
-function removeSlashes(&$item, $key){
+function removeSlashes(&$item, $key)
+{
     $item = stripslashes($item);
 }
 
@@ -12,7 +13,6 @@ if (!$csrf->verify($_POST['_csrf'], 'feedmanage')) {
 }
 
 if (isset($_POST['opml']) || isset($_POST['add'])) {
-
     // Load old OPML
     $oldOpml = OpmlManager::load(__DIR__.'/../custom/people.opml');
     if ($PlanetConfig->getName() === '') {
@@ -26,11 +26,11 @@ if (isset($_POST['opml']) || isset($_POST['add'])) {
         array_walk_recursive($_POST['opml'], 'removeSlashes');
     }
     // Delete/Save feeds
-    if (isset($_POST['delete']) || isset($_POST['save'])){
-        foreach ($_POST['opml'] as $person){
+    if (isset($_POST['delete']) || isset($_POST['save'])) {
+        foreach ($_POST['opml'] as $person) {
             if (isset($_POST['delete'])) {
                 //delete mode, check if to be deleted
-                if (!isset($person['delete'])){
+                if (!isset($person['delete'])) {
                     $newOpml->entries[] = $person;
                 }
             } else {
@@ -40,7 +40,7 @@ if (isset($_POST['opml']) || isset($_POST['add'])) {
     }
 
     // Add feed
-    if (isset($_POST['add'])){
+    if (isset($_POST['add'])) {
         if ('http://' != $_POST['url']) {
             //autodiscover feed
             $feed = new SimplePie();

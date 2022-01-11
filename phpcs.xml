@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset>
+	<rule ref="PSR1"/>
+	<rule ref="PSR2"/>
+	<file>.</file>
+	<arg value="np"/>
+	<arg name="colors"/>
+	<arg name="extensions" value="php,inc"/>
+	<arg name="encoding" value="utf8"/>
+	<exclude-pattern>vendor/</exclude-pattern>
+</ruleset>

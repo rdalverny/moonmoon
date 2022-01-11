@@ -52,7 +52,8 @@ class PlanetConfig
         return $this->conf['url'];
     }
 
-    public function getName(){
+    public function getName()
+    {
         return $this->conf['name'];
     }
 
@@ -190,5 +191,4 @@ class PlanetConfig
 
         $this->conf[$key] = $value;
     }
-
 }
