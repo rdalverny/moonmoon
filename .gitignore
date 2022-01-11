@@ -9,3 +9,7 @@
 
 /nbproject/private/
 /.idea/
+tmp/
+
+.phpunit.result.cache
+
