@@ -10,7 +10,7 @@ if (is_file($config_file)) {
     $conf = Spyc::YAMLLoad($config_file);
     $PlanetConfig = new PlanetConfig($conf);
 } else {
-    die('Config file (custom/config.yml) is missing.');
+    die('<p>' . _g('You might want to <a href="../install.php">install moonmoon</a>.') . '</p>');
 }
 
 //Instantiate app

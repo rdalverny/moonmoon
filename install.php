@@ -33,7 +33,10 @@ if ($PlanetConfig::isInstalled()) {
     OpmlManager::save(new Opml(), custom_path('people.opml'));
 
     //Save password
-    $save['password'] = file_put_contents(admin_path('inc/pwd.inc.php'), '<?php $login="admin"; $password="'.md5($_POST['password']).'"; ?>');
+    $save['password'] = file_put_contents(
+        admin_path('inc/pwd.inc.php'),
+        sprintf('<?php $login="admin"; $password="%s"; ?>', hash('sha256', $_POST['password']))
+    );
 
     if (0 != ($save['config'] + $save['password'])) {
         $status = 'installed';
