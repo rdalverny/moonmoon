@@ -3,9 +3,14 @@
 &iquest;Est&aacute; seguro de que desea vaciar la cach&eacute;?
 
 
-# Translation note:  Vaciar la caché
-;Clear cache
-Vaciar la cach&eacute;
+# Translation note:  ** String needs translation **
+;Your moonmoon instance version is %s.
+Your moonmoon instance version is %s.
+
+
+# Translation note:  ** String needs translation **
+;You can check for a more recent version on: %s.
+You can check for a more recent version on: %s.
 
 
 # Translation note:  Vaciar la caché:
@@ -37,12 +42,12 @@ Nueva contrase&ntilde;a:
 Cambiar la contrase&ntilde;a
 
 
-# Translation note:  Añadir una nueva fuente web - 'feed' = 'fuente web', 'fuente' or 'canal' in spanish, but you can use 'feed' anyway.
-;Add a new feed
-A&ntilde;adir una nueva fuente web
+# Translation note:  ** String needs translation **
+;Upgrade moonmoon
+Upgrade moonmoon
 
 
-# Translation note: Añadir fuente 
+# Translation note: Añadir fuente
 ;Add Feed
 A&ntilde;adir fuente
 
@@ -106,7 +111,11 @@ Enlace a la web
 Enlace a la fuente
 
 
-# Translation note:  'No está en caché' or 'No en caché'
+# Translation note:  ** String needs translation **
+;Unavailable
+Unavailable
+
+
 ;Not in cache
 No est&aacute; en cach&eacute;
 
@@ -120,9 +129,13 @@ Contrase&ntilde;a:
 Entrar
 
 
-# Translation note:  Administración de moonmoon
-;moonmoon administration
-Administraci&oacute;n de moonmoon
+;Administration
+Administraci&oacute;n
+
+
+# Translation note: %s is the version number for moonmoon, this string appears as the tab title in the admin panel ** String needs translation **
+;moonmoon %s
+moonmoon %s
 
 
 # Translation note:  Volver a la página principal
@@ -242,3 +255,7 @@ Instalaci&oacute;n de moonmoon
 # Translation note:  Utilice su contraseña para acceder al panel de administración.
 ;Use your password to go to the <a href="./admin/">administration panel</a>
 Utilice su contrase&ntilde;a para acceder al <a href="./admin/">panel de administraci&oacute;n</a>.
+
+
+;You might want to <a href="install.php">install moonmoon</a>.
+Es posible que desee <a href="install.php">instalar moonmoon</a>.

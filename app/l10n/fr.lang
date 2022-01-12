@@ -2,12 +2,22 @@
 Êtes-vous sûr de vouloir vider le cache ?
 
 
+# Translation note:
+;Your moonmoon instance version is %s.
+Votre version de moonmoon est %s.
+
+
+# Translation note:
+;You can check for a more recent version on: %s.
+Vous pouvez vérifier si une version plus récente a été publiée sur %s.
+
+
 ;Clear cache
 Vider le cache
 
 
 ;Clear cache:
-Vider le cache &nbsp;:
+Vider le cache&nbsp;:
 
 
 ;Clear
@@ -23,11 +33,16 @@ Changer le mot de passe de l'administrateur
 
 
 ;New password:
-Nouveau mot de passe &nbsp;:
+Nouveau mot de passe&nbsp;:
 
 
 ;Change password
 Changer le mot de passe
+
+
+# Translation note:
+;Upgrade moonmoon
+Mettre à jour moonmoon
 
 
 ;Add Feed
@@ -106,8 +121,13 @@ Mot de passe&nbsp;:
 OK {ok}
 
 
-;moonmoon administration
-Administration de moonmoon
+;Administration
+Administration {ok}
+
+
+# Translation note: %s is the version number for moonmoon, this string appears as the tab title in the admin panel
+;moonmoon %s
+moonmoon %s
 
 
 ;Back to main page
@@ -120,10 +140,6 @@ Déconnexion
 
 ;Feeds
 Flux
-
-
-;Administration
-Administration {ok}
 
 
 ;Powered by <a %s>moonmoon</a>
@@ -194,10 +210,6 @@ Afficher tous les titres
 Source&nbsp;:
 
 
-;You might want to <a href="install.php">install moonmoon</a>.
-Vous voulez probablement <a href="install.php">installer moonmoon</a>.
-
-
 ;moonmoon installation
 Installation de moonmoon
 
@@ -218,3 +230,5 @@ Et maintenant &nbsp;?
 Utilisez votre mot de passe pour vous rendre sur la <a href="./admin/">console d'administration</a>
 
 
+;You might want to <a href="install.php">install moonmoon</a>.
+Vous voulez probablement <a href="install.php">installer moonmoon</a>.

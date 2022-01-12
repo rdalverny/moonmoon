@@ -4,6 +4,16 @@ Are you sure you want to purge the cache?
 
 
 # Translation note:  ** String needs translation **
+;Your moonmoon instance version is %s.
+Your moonmoon instance version is %s.
+
+
+# Translation note:  ** String needs translation **
+;You can check for a more recent version on: %s.
+You can check for a more recent version on: %s.
+
+
+# Translation note:  ** String needs translation **
 ;Clear cache
 Clear cache
 
@@ -36,6 +46,11 @@ New password:
 # Translation note:  ** String needs translation **
 ;Change password
 Change password
+
+
+# Translation note:  ** String needs translation **
+;Upgrade moonmoon
+Upgrade moonmoon
 
 
 # Translation note:  ** String needs translation **
@@ -117,6 +132,7 @@ Feed link
 ;Unavailable
 Unavailable
 
+
 # Translation note:  ** String needs translation **
 ;Not in cache
 Not in cache
@@ -133,8 +149,13 @@ OK
 
 
 # Translation note:  ** String needs translation **
-;moonmoon administration
-moonmoon administration
+;Administration
+Administration
+
+
+# Translation note: %s is the version number for moonmoon, this string appears as the tab title in the admin panel ** String needs translation **
+;moonmoon %s
+moonmoon %s
 
 
 # Translation note:  ** String needs translation **
@@ -150,11 +171,6 @@ Logout
 # Translation note:  ** String needs translation **
 ;Feeds
 Feeds
-
-
-# Translation note:  ** String needs translation **
-;Administration
-Administration
 
 
 # Translation note:  ** String needs translation **
@@ -243,11 +259,6 @@ Source:
 
 
 # Translation note:  ** String needs translation **
-;You might want to <a href="install.php">install moonmoon</a>.
-You might want to <a href="install.php">install moonmoon</a>.
-
-
-# Translation note:  ** String needs translation **
 ;moonmoon installation
 moonmoon installation
 
@@ -272,3 +283,6 @@ What's next?
 Use your password to go to the <a href="./admin/">administration panel</a>
 
 
+# Translation note:  ** String needs translation **
+;You might want to <a href="install.php">install moonmoon</a>.
+You might want to <a href="install.php">install moonmoon</a>.

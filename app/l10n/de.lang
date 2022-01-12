@@ -2,6 +2,16 @@
 Sind Sie sicher, dass sie den Cache säubern wollen?
 
 
+# Translation note:  ** String needs translation **
+;Your moonmoon instance version is %s.
+Your moonmoon instance version is %s.
+
+
+# Translation note:  ** String needs translation **
+;You can check for a more recent version on: %s.
+You can check for a more recent version on: %s.
+
+
 ;Clear cache
 Cache Löschen
 
@@ -30,10 +40,16 @@ Neues Passwort:
 Passwort ändern
 
 
+# Translation note:  ** String needs translation **
+;Upgrade moonmoon
+Upgrade moonmoon
+
+
 ;Add Feed
 Feed hinzufügen
 
 
+# Translation note:  ** String needs translation **
 ;Link:
 Link:
 
@@ -74,6 +90,7 @@ Nichts
 Auswahl
 
 
+# Translation note:  ** String needs translation **
 ;Name
 Name
 
@@ -93,6 +110,7 @@ Link des Feeds
 ;Unavailable
 Nicht verfügbar
 
+
 ;Not in cache
 Nicht im cache
 
@@ -101,12 +119,19 @@ Nicht im cache
 Passwort:
 
 
+# Translation note:  ** String needs translation **
 ;OK
 OK
 
 
-;moonmoon administration
-moonmoon Administration
+# Translation note:  ** String needs translation **
+;Administration
+Administration
+
+
+# Translation note: %s is the version number for moonmoon, this string appears as the tab title in the admin panel ** String needs translation **
+;moonmoon %s
+moonmoon %s
 
 
 ;Back to main page
@@ -117,14 +142,12 @@ Zurück zur Hauptseite
 Abmelden
 
 
+# Translation note:  ** String needs translation **
 ;Feeds
 Feeds
 
 
-;Administration
-Administration
-
-
+# Translation note:  ** String needs translation **
 ;Powered by <a %s>moonmoon</a>
 Powered by <a %s>moonmoon</a>
 
@@ -161,6 +184,7 @@ Diesen Monat
 Personen
 
 
+# Translation note:  ** String needs translation **
 ;Feed
 Feed
 
@@ -177,6 +201,7 @@ Alle Feeds im OPML-Format
 Zusammenfassung
 
 
+# Translation note:  ** String needs translation **
 ;Feed (ATOM)
 Feed (ATOM)
 
@@ -191,10 +216,6 @@ Alle Schlagzeilen ansehen
 
 ;Source:
 Quelle:
-
-
-;You might want to <a href="install.php">install moonmoon</a>.
-Sie könnten  <a href="install.php">moonmoon installieren</a> wollen.
 
 
 ;moonmoon installation
@@ -217,3 +238,5 @@ Was nun?
 Verwenden Sie Ihr Passwort, um zum <a href="./admin/">Administrationsbereich</a> zu gehen.
 
 
+;You might want to <a href="install.php">install moonmoon</a>.
+Sie könnten  <a href="install.php">moonmoon installieren</a> wollen.
