@@ -89,10 +89,11 @@
                 <p class="field">
                     <label for="locale">Language:</label>
                     <select name="locale" id="locale">
+                        <option value="de">Deutsch</option>
                         <option selected="selected" value="en">English</option>
                         <option value="es">Español</option>
                         <option value="fr">Français</option>
-                        <option value="en">Deutsch</option>
+                        <option value="id">Bahasa Indonesia</option>
                     </select>
                 </p>
                 <p>
