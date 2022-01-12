@@ -23,7 +23,27 @@ class PlanetFeed extends SimplePie
         $this->set_autodiscovery_level(SIMPLEPIE_LOCATOR_NONE);
         $this->set_feed_url($this->getFeed());
         $this->set_timeout(5);
-        $this->set_stupidly_fast(true);
+
+        $this->enable_order_by_date(false);
+        $this->remove_div(false);
+        $this->strip_comments(false);
+        $this->strip_attributes(false);
+        $this->set_image_handler(false);
+        $this->set_https_domains(array());
+        $this->strip_htmltags([
+            'base', 'blink', 'body',
+            'doctype',
+            'embed',
+            'font', 'form', 'frame', 'frameset',
+            'html',
+            'iframe', 'input',
+            'marquee', 'meta',
+            'noscript',
+            'object',
+            'param',
+            'script',
+            'style'
+        ]);
     }
 
     public function getFeed()
