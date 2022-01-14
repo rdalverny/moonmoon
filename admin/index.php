@@ -3,13 +3,7 @@
 require_once __DIR__ . '/../app/app.php';
 require_once __DIR__ . '/inc/auth.inc.php';
 
-//Load configuration
-$config_file = __DIR__ . '/../custom/config.yml';
-
-if (is_file($config_file)) {
-    $conf = Spyc::YAMLLoad($config_file);
-    $PlanetConfig = new PlanetConfig($conf);
-} else {
+if (!$PlanetConfig::isInstalled()) {
     die('<p>' . _g('You might want to <a href="../install.php">install moonmoon</a>.') . '</p>');
 }
 

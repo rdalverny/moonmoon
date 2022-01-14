@@ -128,36 +128,9 @@ class PlanetConfig
         return $this->conf['cache'];
     }
 
-    /**
-     * @deprecated
-     * @return mixed
-     */
-    public function getShuffle()
-    {
-        return $this->conf['shuffle'];
-    }
-
     public function getMaxDisplay()
     {
         return $this->conf['items'];
-    }
-
-    /**
-     * @deprecated
-     * @return mixed
-     */
-    public function getNoHTML()
-    {
-        return $this->conf['nohtml'];
-    }
-
-    /**
-     * @deprecated
-     * @return mixed
-     */
-    public function getPostMaxLength()
-    {
-        return $this->conf['postmaxlength'];
     }
 
     public function getCategories()

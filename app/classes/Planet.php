@@ -159,7 +159,7 @@ class Planet
     public function download($max_load = 0.1)
     {
         $max_load_feeds = ceil(count($this->people) * $max_load);
-        $opml = OpmlManager::load(__DIR__.'/../../custom/people.opml');
+        $opml = OpmlManager::load($this->config->getOpmlFile());
 
         foreach ($this->people as $feed) {
             //Avoid mass loading with variable cache duration
@@ -173,7 +173,7 @@ class Planet
 
             // Bypass remote's SSL/TLS certificate if the user explicitly
             // asked for it in the configuration.
-            if ($this->config->checkcerts === false) {
+            if (!$this->config->checkCertificates()) {
                 $feed->set_curl_options([
                     CURLOPT_SSL_VERIFYHOST => false,
                     CURLOPT_SSL_VERIFYPEER => false
@@ -188,7 +188,7 @@ class Planet
                 $items = $feed->get_items();
                 $this->items = array_merge($this->items, $items);
             } else {
-                $this->errors[] = new PlanetError(1, 'No items or down : ' . $feed->getFeed());
+                $this->errors[] = new PlanetError(1, 'No items or down: ' . $feed->getFeed());
                 $isDown = '1';
             }
 
@@ -199,7 +199,7 @@ class Planet
             }
         }
 
-        OpmlManager::save($opml, __DIR__.'/../../custom/people.opml');
+        OpmlManager::save($opml, $this->config->getOpmlFile());
     }
 
     public function sort()
