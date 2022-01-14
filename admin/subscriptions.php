@@ -14,7 +14,15 @@ if (!$csrf->verify($_POST['_csrf'], 'feedmanage')) {
 
 $opmlFile = $PlanetConfig->getOpmlFile();
 
-if (isset($_POST['opml']) || isset($_POST['add'])) {
+if (isset($_POST['upload']) &&
+    isset($_FILES['opml']) &&
+    is_uploaded_file($_FILES['opml']['tmp_name']) &&
+    $_FILES['opml']['size'] > 0) {
+    OpmlManager::backup($opmlFile);
+    $newOpml = new Opml();
+    $newOpml->parse(file_get_contents($_FILES['opml']['tmp_name']));
+    OpmlManager::save($newOpml, $opmlFile);
+} elseif (isset($_POST['opml']) || isset($_POST['add'])) {
     // Load old OPML
     $oldOpml = OpmlManager::load($opmlFile);
     if ($PlanetConfig->getName() === '') {

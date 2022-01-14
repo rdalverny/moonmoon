@@ -127,6 +127,20 @@ ob_start();
                 </table>
                 </form>
             </div>
+
+            <div class="widget">
+                <h3><?=_g('Upload OPML file')?></h3>
+                <form action="subscriptions.php" method="post" id="opmlimport" enctype="multipart/form-data">
+                    <p>Beware! This will totally erase and replace the list of your feeds just above.</p>
+                    <fieldset>
+                        <label for="url"><?=_g('File:')?></label>
+                        <input type="file" class="text" name="opml" id="opml" class="text" size="50" />
+                        <input type="submit" class="submit add" name="upload" value="<?=_g('Upload OPML file and replace existing feeds')?>" />
+                    </fieldset>
+                    <input type="hidden" value="<?php echo $csrf->generate('feedmanage'); ?>" name="_csrf">
+                </form>
+            </div>
+
 <?php
 $page_content = ob_get_contents();
 ob_end_clean();
