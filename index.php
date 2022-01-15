@@ -2,28 +2,17 @@
 include_once(__DIR__.'/app/app.php');
 include_once(__DIR__.'/app/classes/Cache.php');
 
-//Installed ?
 if (!$PlanetConfig::isInstalled()) {
-    echo '<p>' . _g('You might want to <a href="install.php">install moonmoon</a>.') . '</p>';
-    exit;
+    die('<p>' . _g('You might want to <a href="install.php">install moonmoon</a>.') . '</p>');
 }
 
-//Load from cache
-$items = array();
-if (0 < $Planet->loadOpml($PlanetConfig->getOpmlFile())) {
-    $Planet->loadFeeds();
-    $items = $Planet->getItems();
+$pageRole = $_GET['type'] ?? 'index';
+$pageTheme = 'default';
+if (!in_array($pageRole, ['index', 'archive', 'atom10'])) {
+    $pageRole = 'index';
 }
 
-//Prepare output cache
-Cache::$enabled = false;
-$cache_key      = (count($items)) ? $items[0]->get_id()   : '';
-$last_modified  = (count($items)) ? $items[0]->get_date() : '';
-$cache_duration = $PlanetConfig->getOutputTimeout() * 60;
-
-Cache::setStore($PlanetConfig->getCacheDir());
-
-if (isset($_GET['type']) && $_GET['type'] == 'atom10') {
+if ($pageRole == 'atom10') {
     /* XXX: Redirect old ATOM feeds to new url to make sure our users don't
      * loose subscribers upon upgrading their moonmoon installation.
      * Remove this check in a more distant future.
@@ -33,15 +22,14 @@ if (isset($_GET['type']) && $_GET['type'] == 'atom10') {
     exit;
 }
 
-//Go display
-if (!isset($_GET['type']) ||
-    !is_file(__DIR__.'/custom/views/'.$_GET['type'].'/index.tpl.php') ||
-    strpos($_GET['type'], DIRECTORY_SEPARATOR) || strpos($_GET['type'], '..')) {
-    $_GET['type'] = 'default';
-}
+$cache_duration = $PlanetConfig->getOutputTimeout();
+Cache::$enabled = ($cache_duration > 0);
+Cache::setStore($PlanetConfig->getCacheDir() . '/');
 
-if (!OutputCache::Start($_GET['type'], $cache_key, $cache_duration)) {
-    include_once(__DIR__.'/custom/views/'.$_GET['type'].'/index.tpl.php');
+if (!OutputCache::Start('html', $pageRole, $cache_duration)) {
+    $items = $Planet->getFeedsItems();
+    $last_modified  = (count($items)) ? $items[0]->get_date() : '';
+    include_once(__DIR__.'/custom/views/'.$pageTheme.'/'.$pageRole.'.tpl.php');
     OutputCache::End();
 }
 

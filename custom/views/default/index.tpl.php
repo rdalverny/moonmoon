@@ -1,26 +1,15 @@
 <?php
+$pageTitle = $PlanetConfig->getName();
 $limit = $PlanetConfig->getMaxDisplay();
 $count = 0;
 
 header('Content-type: text/html; charset=UTF-8');
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?=$PlanetConfig->getLocale()?>" lang="<?=$PlanetConfig->getLocale()?>">
+?><!DOCTYPE html>
+<html lang="<?=$PlanetConfig->getLocale()?>" class="no-js">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="Content-Script-Type" content="text/javascript" />
-    <meta http-equiv="Content-Style-Type" content="text/css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title><?php echo $PlanetConfig->getName(); ?></title>
     <?php include(__DIR__.'/head.tpl.php'); ?>
 </head>
-
 <body>
-    <script type="text/javascript">
-    document.body.className += 'js';
-    </script>
     <div id="page">
         <?php include(__DIR__.'/top.tpl.php'); ?>
 
@@ -67,9 +56,7 @@ header('Content-type: text/html; charset=UTF-8');
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
-
         <?php include_once(__DIR__.'/sidebar.tpl.php'); ?>
-
         <?php include(__DIR__.'/footer.tpl.php'); ?>
     </div>
 </body>

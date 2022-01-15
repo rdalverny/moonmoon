@@ -24,7 +24,6 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>';
     <author><name><?=htmlspecialchars($PlanetConfig->getName())?></name></author>
 <?php $count = 0; ?>
 <?php foreach ($items as $item) : ?>
-
     <entry>
         <title type="html"><?=htmlspecialchars($item->get_feed()->getName())?> : <?=htmlspecialchars($item->get_title())?></title>
         <id><?=htmlspecialchars($item->get_id())?></id>

@@ -1,4 +1,5 @@
 <?php
+$pageTitle = $PlanetConfig->getName() . ' &middot; ' . _g('All Headlines');
 $count = 0;
 $today = array();
 $week = array();
@@ -20,44 +21,36 @@ foreach ($items as $item) {
 }
 
 header('Content-type: text/html; charset=UTF-8');
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?=$PlanetConfig->getLocale()?>" lang="<?=$PlanetConfig->getLocale()?>">
+?><!DOCTYPE html>
+<html lang="<?=$PlanetConfig->getLocale()?>" class="no-js">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="Content-Script-Type" content="text/javascript" />
-    <meta http-equiv="Content-Style-Type" content="text/css" />
-
-    <title><?php echo $PlanetConfig->getName(); ?></title>
     <?php include(__DIR__.'/head.tpl.php'); ?>
 </head>
-
 <body>
     <div id="page">
         <?php include(__DIR__.'/top.tpl.php'); ?>
-
-        <div id="content">
+        <main id="content">
             <?php if (0 == count($items)) :?>
-            <div class="article">
+            <article class="article">
                 <h2 class="article-title">
                     <?=_g('No article')?>
                 </h2>
                 <p class="article-content"><?=_g('No news, good news.')?></p>
-            </div>
+            </article>
             <?php endif; ?>
             <?php if (count($today)) : ?>
-            <div class="article">
+            <article class="article">
                 <h2><?=_g('Today')?></h2>
                 <ul>
                 <?php foreach ($today as $item) : ?>
                     <?php $feed = $item->get_feed(); ?>
                     <li>
-                    <a href="<?php echo $feed->getWebsite() ?>" class="source"><?php echo $feed->getName() ?></a> :
+                    <a href="<?php echo $feed->getWebsite() ?>" class="source"><?php echo $feed->getName() ?></a> &middot;
                     <a href="<?php echo $item->get_permalink(); ?>" title="<?=_g('Go to original place')?>"><?php echo $item->get_title(); ?></a>
                     </li>
                 <?php endforeach; ?>
                 </ul>
-            </div>
+            </article>
             <?php endif; ?>
 
             <?php if (count($week)) : ?>
@@ -67,7 +60,7 @@ header('Content-type: text/html; charset=UTF-8');
                 <?php foreach ($week as $item) : ?>
                     <?php $feed = $item->get_feed(); ?>
                     <li>
-                    <a href="<?php echo $feed->getWebsite() ?>" class="source"><?php echo $feed->getName() ?></a> :
+                    <a href="<?php echo $feed->getWebsite() ?>" class="source"><?php echo $feed->getName() ?></a> &middot;
                     <a href="<?php echo $item->get_permalink(); ?>" title="<?=_g('Go to original place')?>"><?php echo $item->get_title(); ?></a>
                     </li>
                 <?php endforeach; ?>
@@ -82,7 +75,7 @@ header('Content-type: text/html; charset=UTF-8');
                 <?php foreach ($month as $item) : ?>
                     <?php $feed = $item->get_feed(); ?>
                     <li>
-                    <a href="<?php echo $feed->getWebsite() ?>" class="source"><?php echo $feed->getName() ?></a> :
+                    <a href="<?php echo $feed->getWebsite() ?>" class="source"><?php echo $feed->getName() ?></a> &middot;
                     <a href="<?php echo $item->get_permalink(); ?>" title="<?=_g('Go to original place')?>"><?php echo $item->get_title(); ?></a>
                     </li>
                 <?php endforeach; ?>
@@ -97,17 +90,15 @@ header('Content-type: text/html; charset=UTF-8');
                 <?php foreach ($older as $item) : ?>
                     <?php $feed = $item->get_feed(); ?>
                     <li>
-                    <a href="<?php echo $feed->getWebsite() ?>" class="source"><?php echo $feed->getName() ?></a> :
+                    <a href="<?php echo $feed->getWebsite() ?>" class="source"><?php echo $feed->getName() ?></a> &middot;
                     <a href="<?php echo $item->get_permalink(); ?>" title="Go to original place"><?php echo $item->get_title(); ?></a>
                     </li>
                 <?php endforeach; ?>
                 </ul>
             </div>
             <?php endif; ?>
-        </div>
-
+        </main>
         <?php include_once(__DIR__.'/sidebar.tpl.php'); ?>
-
         <?php include(__DIR__.'/footer.tpl.php'); ?>
     </div>
 </body>

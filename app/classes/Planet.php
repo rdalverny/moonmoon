@@ -81,6 +81,19 @@ class Planet
     }
 
     /**
+     * @return array $items
+     */
+    public function getFeedsItems()
+    {
+        $items = [];
+        if (0 < $this->loadOpml($this->config->getOpmlFile())) {
+            $this->loadFeeds();
+            $items = $this->getItems();
+        }
+        return $items;
+    }
+
+    /**
      * Getters
      */
     public function getItems()
