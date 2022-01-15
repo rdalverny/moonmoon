@@ -4,6 +4,8 @@
     "homepage": "http://moonmoon.org/",
     "type": "project",
     "license": "BSD-3-Clause",
+    "version": "10.0.0-dev",
+    "keywords": ["rss", "atom", "syndication", "planet", "blog"],
     "authors": [
         {
             "name": "Maurice Svay",
