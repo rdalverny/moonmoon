@@ -1,10 +1,11 @@
 
 VENDOR=./vendor/bin/
+PHPUNIT=php -dxdebug.enabled=1 -dxdebug.mode=coverage ./vendor/bin/phpunit --coverage-text
 
 test:
 	{ php -S 127.0.0.1:8081 >& /dev/null & }; \
 	PID=$$!; \
-	$(VENDOR)phpunit; \
+	$(PHPUNIT); \
 	RES=$$?; \
 	kill $$PID; \
 	exit $$RES

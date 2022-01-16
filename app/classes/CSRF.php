@@ -3,7 +3,7 @@
 class CSRF
 {
     /** @var string */
-    const HMAC_ALGORITHM = 'sha1';
+    const HMAC_ALGORITHM = 'sha256';
 
     /** @var string */
     const SESSION_KEY_NAME = '_csrf_key';
@@ -48,7 +48,7 @@ class CSRF
     public static function getKey()
     {
         if (empty($_SESSION[self::SESSION_KEY_NAME])) {
-            $_SESSION[self::SESSION_KEY_NAME] = random_bytes(16);
+            $_SESSION[self::SESSION_KEY_NAME] = bin2hex(random_bytes(16));
         }
         return $_SESSION[self::SESSION_KEY_NAME];
     }

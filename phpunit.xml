@@ -7,13 +7,32 @@
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTestsThatDoNotTestAnything="true"
          beStrictAboutTodoAnnotatedTests="true"
+         cacheResultFile="tmp/.phpunit.cache/test-results"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
          verbose="true">
-    <coverage processUncoveredFiles="true">
+
+
+    <coverage processUncoveredFiles="false">
         <include>
             <directory suffix=".php">.</directory>
         </include>
+        <exclude>
+            <directory>vendor</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="tmp/html-coverage" lowUpperBound="50" highLowerBound="90"/>
+            <php outputFile="tmp/coverage.php"/>
+            <text outputFile="tmp/coverage.txt" showUncoveredFiles="true" showOnlySummary="true"/>
+            <xml outputDirectory="tmp/xml-coverage"/>
+        </report>
     </coverage>
-    <testsuite name="moonmoon tests">
-        <directory suffix="Test.php">tests</directory>
-    </testsuite>
+
+    <testsuites>
+        <testsuite name="moonmoon tests">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

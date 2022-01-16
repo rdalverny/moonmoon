@@ -22,10 +22,12 @@ class FoolItem
 {
     protected $categories;
 
-    public function __construct($categories)
+    public function __construct($categories = null)
     {
-        foreach ($categories as $c) {
-            $this->categories[] = new FoolCategory($c);
+        if (is_array($categories)) {
+            foreach ($categories as $c) {
+                $this->categories[] = new FoolCategory($c);
+            }
         }
     }
 
@@ -49,7 +51,8 @@ class PlanetTest extends TestCase
             new FoolItem(array('catA', 'catB', 'catC')),
             new FoolItem(array('catB')),
             new FoolItem(array('catA')),
-            new FoolItem(array('catC'))
+            new FoolItem(array('catC')),
+            new FoolItem(),
         );
     }
 

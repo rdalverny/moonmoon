@@ -3,7 +3,7 @@
 
 class OpmlManager
 {
-    public static function load($file)
+    public static function load(string $file) : Opml
     {
         if (!file_exists($file)) {
             throw new Exception('OPML file not found!');
@@ -22,44 +22,63 @@ class OpmlManager
         return $opml;
     }
 
-    /**
-     * @param Opml   $opml
-     * @param string $file
-     */
-    public static function save($opml, $file)
+    public static function format(Opml $opml, $freezeDateModified = false) : string
     {
-        $out = '<?xml version="1.0"?>'."\n";
-        $out.= '<opml version="2.0">'."\n";
-        $out.= '<head>'."\n";
-        $out.= '<title>'.htmlspecialchars($opml->getTitle()).'</title>'."\n";
-        $out.= '<dateCreated>'.gmdate('c').'</dateCreated>'."\n";
-        $out.= '<dateModified>'.gmdate('c').'</dateModified>'."\n";
+        $owner = '';
         if ($opml->ownerName != '') {
-            $out.= '<ownerName>'.htmlspecialchars($opml->ownerName).'</ownerName>'."\n";
+            $owner .= '<ownerName>'.htmlspecialchars($opml->ownerName).'</ownerName>'."\n";
         }
         if ($opml->ownerEmail != '') {
-            $out.= '<ownerEmail>'.htmlspecialchars($opml->ownerEmail).'</ownerEmail>'."\n";
+            $owner .= '<ownerEmail>'.htmlspecialchars($opml->ownerEmail).'</ownerEmail>'."\n";
         }
         if ($opml->ownerId != '') {
-            $out.= '<ownerId>'.htmlspecialchars($opml->ownerId).'</ownerId>'."\n";
+            $owner .= '<ownerId>'.htmlspecialchars($opml->ownerId).'</ownerId>'."\n";
         }
-        $out.= '<docs>http://opml.org/spec2.opml</docs>'."\n";
 
-        $out.= '</head>'."\n";
-        $out.= '<body>'."\n";
+        $entries = '';
         foreach ($opml->entries as $person) {
-            $out .= sprintf(
-                '<outline text="%s" htmlUrl="%s" xmlUrl="%s" isDown="%s" />',
+            $entries .= sprintf(
+                "\t" . '<outline text="%s" htmlUrl="%s" xmlUrl="%s" isDown="%s" />',
                 htmlspecialchars($person['name'], ENT_QUOTES),
                 htmlspecialchars($person['website'], ENT_QUOTES),
                 htmlspecialchars($person['feed'], ENT_QUOTES),
                 htmlspecialchars($person['isDown'] ?? '', ENT_QUOTES)
             ) . "\n";
         }
-        $out.= '</body>'."\n";
-        $out.= '</opml>';
 
-        file_put_contents($file, $out);
+        $template = <<<XML
+<?xml version="1.0"?>
+<opml version="2.0">
+<head>
+    <title>%s</title>
+    <dateCreated>%s</dateCreated>
+    <dateModified>%s</dateModified>
+    %s
+    <docs>http://opml.org/spec2.opml</docs>
+</head>
+<body>
+%s
+</body>
+</opml>
+XML;
+
+        return sprintf(
+            $template,
+            htmlspecialchars($opml->getTitle()),
+            $opml->dateCreated,
+            $freezeDateModified ? $opml->dateModified : date_format(date_create('now', new DateTimeZone('UTC')), DateTimeInterface::ATOM),
+            $owner,
+            $entries
+        );
+    }
+
+    /**
+     * @param Opml   $opml
+     * @param string $file
+     */
+    public static function save(Opml $opml, string $file) : int|bool
+    {
+        return file_put_contents($file, self::format($opml));
     }
 
     public static function backup($file)

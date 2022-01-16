@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<opml version="2.0">
+<head>
+<title>Test OPML</title>
+<dateCreated>2022-01-14T17:15:05+00:00</dateCreated>
+<dateModified>2022-01-14T17:15:05+00:00</dateModified>
+<ownerName>user name</ownerName>
+<ownerEmail>user@example.com</ownerEmail>
+<ownerId>http://user.example.com/</ownerId>
+<docs>http://opml.org/spec2.opml</docs>
+</head>
+<body>
+<outline text="text 1" htmlUrl="https://blog.example.com/" xmlUrl="https://some.other.example.com/feed/path" isDown="" />
+<outline text="text 2" htmlUrl="https://blog2.example.com" xmlUrl="https://blog2.example.com/rss.xml" isDown="" />
+</body>
+</opml>

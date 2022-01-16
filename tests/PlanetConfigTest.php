@@ -70,4 +70,11 @@ class PlanetConfigTest extends TestCase
         $conf = new PlanetConfig(['foo' => 'bar'], false);
         $this->assertEquals("---\nfoo: bar\n", $conf->toYaml());
     }
+
+    public function testConfigLoad()
+    {
+        $conf = PlanetConfig::load(".");
+        $default = new PlanetConfig();
+        $this->assertEquals($default, $conf);
+    }
 }

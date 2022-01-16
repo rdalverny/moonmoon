@@ -9,6 +9,9 @@ class Opml
     public string $ownerEmail = '';
     public string $ownerId = '';
 
+    public string $dateCreated = '';
+    public string $dateModified = '';
+
     public string $title = '';
 
     /** @var array<int, string> */
@@ -21,7 +24,7 @@ class Opml
             'TITLE'       => 'name',
             'XMLURL'      => 'feed',
             'DESCRIPTION' => 'description',
-            'ISDOWN'      => 'isDown'
+            'ISDOWN'      => 'isDown',
         );
 
 
@@ -80,6 +83,12 @@ class Opml
                 break;
             case 'OWNERID':
                 $this->ownerId = $cdata;
+                break;
+            case 'DATECREATED':
+                $this->dateCreated = $cdata;
+                break;
+            case 'DATEMODIFIED':
+                $this->dateModified = $cdata;
                 break;
         }
     }
