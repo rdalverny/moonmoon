@@ -1,6 +1,5 @@
 <?php
 require_once '../../app/app.php';
-require_once '../../app/classes/Cache.php';
 
 if ($Planet->loadOpml($PlanetConfig->getOpmlFile()) == 0) {
     header('Content-Type: text/xml; charset=utf-8');
@@ -8,13 +7,20 @@ if ($Planet->loadOpml($PlanetConfig->getOpmlFile()) == 0) {
     exit;
 }
 
-$Planet->loadFeeds();
-$items = $Planet->getItems();
-$limit = $PlanetConfig->getMaxDisplay();
-$count = 0;
+$cache_duration = $PlanetConfig->getOutputTimeout();
+Cache::$enabled = ($cache_duration > 0);
+Cache::setStore($PlanetConfig->getCacheDir() . '/');
 
-header('Content-Type: text/xml; charset=UTF-8');
-echo '<?xml version="1.0" encoding="UTF-8" ?>';
+
+if (!OutputCache::Start('html', 'atomfeed', $cache_duration)) {
+    $items = $Planet->getFeedsItems();
+    $limit = $PlanetConfig->getMaxDisplay();
+    $count = 0;
+
+    $updatedAt = date_format(date_create('now', new DateTimeZone('UTC')), DateTimeInterface::ATOM);
+
+    header('Content-Type: text/xml; charset=UTF-8');
+    echo '<?xml version="1.0" encoding="UTF-8" ?>';
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title><?=htmlspecialchars($PlanetConfig->getName())?></title>
@@ -22,7 +28,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>';
     <id><?=$PlanetConfig->getUrl()?></id>
     <link rel="self" type="application/atom+xml" href="<?=$PlanetConfig->getUrl()?>feed/" />
     <link rel="alternate" type="text/html" href="<?=$PlanetConfig->getUrl()?>" />
-    <updated><?=gmdate('Y-m-d\TH:i:s\Z')?></updated>
+    <updated><?=$updatedAt?></updated>
     <author><name><?=htmlspecialchars($PlanetConfig->getName())?></name></author>
 <?php $count = 0; ?>
 <?php foreach ($items as $item) : ?>
@@ -41,3 +47,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>';
 <?php endforeach; ?>
 
 </feed>
+<?php
+    OutputCache::End();
+}
+?>

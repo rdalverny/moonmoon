@@ -1,6 +1,5 @@
 <?php
 require_once '../app/app.php';
-require_once '../app/classes/Cache.php';
 
 if (!$PlanetConfig::isInstalled()) {
     die('<p>' . _g('You might want to <a href="install.php">install moonmoon</a>.') . '</p>');
