@@ -17,7 +17,7 @@ Requirements
 You will need a web hosting with at least PHP 7.4 (8.0 and 8.1 are supported too).
 
 If you are installing moonmoon on a Linux private server (VPS, dedicated host),
-please note that you will need to have installed the following packages:
+please note that you will need to have installed the following extensions:
 `php-curl`, `php-mbstring`, `php-xml`, `php-xmlreader`.
 
 Installing
@@ -62,3 +62,26 @@ categories:                     # only list posts that have one
 debug: false                    # debug mode (dangerous in production!)
 checkcerts: true                # check feeds certificates
 ```
+
+Provisional PHP Support Policy
+------------------------------
+
+On a best effort basis, trying to keep a review at least once a year:
+
+1. We aim to support the stable current versions of PHP (as of January 2022, that's 8.1 & 7.4);
+2. and, if that's practical, the 2 previous stable versions (so, 7.3 and 7.2), if that's practical.
+3. Support will end for PHP versions that have been end-of-life for more than 2 years
+   (see https://www.php.net/supported-versions.php).
+4. When support for a minor PHP version is dropped, moonmoon minor version will increase
+   (moonmoon 10.1 would become 10.2 when support for PHP 7.4 is dropped).
+5. When support for a major PHP version is dropped, moonmoon major version will increase
+   (10.3 would become 11.0 when support for the last PHP 7.x is dropped).
+6. Dropping support for a PHP version does not mean that they will necessarily
+   not run properly anymore moonmoon latest version,
+7. but this defines a criteria for arbitration when needed,
+   between updates required to support new platform features/requirements,
+   and staying reasonably compatible with older versions.
+8. Separate maintenance branches may be kept for major versions where some changes
+   may be backported.
+
+---
