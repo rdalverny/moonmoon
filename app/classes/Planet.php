@@ -75,13 +75,13 @@ class Planet
      * @param  string $supplied
      * @return bool
      */
-    public static function authenticateUser(string $known = '', string $supplied = '')
+    public static function authenticateUser(string $known = '', string $supplied = '') : bool
     {
         return hash_equals($known, $supplied);
     }
 
     /**
-     * @return array $items
+     * @return array<PlanetItem> $items
      */
     public function getFeedsItems()
     {
@@ -95,6 +95,8 @@ class Planet
 
     /**
      * Getters
+     *
+     * @return array<int, PlanetItem>
      */
     public function getItems()
     {
@@ -106,6 +108,9 @@ class Planet
         return $this->items;
     }
 
+    /**
+     * @return array<PlanetFeed>
+     */
     public function getPeople()
     {
         return $this->people;
@@ -115,6 +120,7 @@ class Planet
      * Adds a feed to the planet.
      *
      * @param PlanetFeed $feed
+     * @return void
      */
     public function addPerson(&$feed)
     {
@@ -150,6 +156,7 @@ class Planet
 
     /**
      * Load feeds
+     * @return void
      */
     public function loadFeeds()
     {
@@ -168,6 +175,7 @@ class Planet
      * Fetch feeds and see if new data is present.
      *
      * @param float $max_load Percentage of feeds to load
+     * @return void
      */
     public function download($max_load = 0.1)
     {
@@ -215,6 +223,9 @@ class Planet
         OpmlManager::save($opml, $this->config->getOpmlFile());
     }
 
+    /**
+     * @return void
+     */
     public function sort()
     {
         usort($this->items, array('PlanetItem','compare'));
@@ -226,13 +237,13 @@ class Planet
      *
      * If there's no category, return all items.
      *
-     * @param array  $items to filter
+     * @param array<PlanetItem>  $items to filter
      * @param string $categories to filter against; may be a single word
      * or a comma-separated list of words.
      *
-     * @return array resulting list of items
+     * @return array<PlanetItem> resulting list of items
     */
-    public function _filterItemsByCategory($items, $categories = null)
+    public function _filterItemsByCategory(array $items, string $categories = null)
     {
         if (is_null($categories) or empty(trim($categories))) {
             return $items;

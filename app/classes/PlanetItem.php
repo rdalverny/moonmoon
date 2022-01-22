@@ -6,6 +6,10 @@
 
 class PlanetItem extends SimplePie_Item
 {
+    /**
+     * @param SimplePie $feed
+     * @param string $data
+     */
     public function __construct($feed, $data)
     {
         parent::__construct($feed, $data);

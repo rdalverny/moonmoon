@@ -20,7 +20,7 @@ class Simplel10n
         $this->l10nFolder = $path;
     }
 
-    public static function getString($str, $comment = '')
+    public static function getString(string $str, string $comment = '')
     {
         if (array_key_exists($str, $GLOBALS['locale'])) {
             return trim(str_replace('{ok}', '', $GLOBALS['locale'][$str]));

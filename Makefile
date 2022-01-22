@@ -36,3 +36,4 @@ serve:
 clean:
 	rm -fr ./cache/*
 	rm -fr ./custom/config/*
+	rm -fr ./custom/config.* ./custom/people.*

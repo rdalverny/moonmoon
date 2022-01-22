@@ -22,7 +22,13 @@ class OpmlManager
         return $opml;
     }
 
-    public static function format(Opml $opml, $freezeDateModified = false) : string
+    /**
+     *
+     * @param  Opml $opml object
+     * @param  boolean $freezeDateModified update (or not) the dateModified entry - used for tests only
+     * @return string  OPML valid string
+     */
+    public static function format(Opml $opml, bool $freezeDateModified = false) : string
     {
         $owner = '';
         if ($opml->ownerName != '') {
@@ -81,7 +87,7 @@ XML;
         return file_put_contents($file, self::format($opml));
     }
 
-    public static function backup($file)
+    public static function backup(string $file) : void
     {
         copy($file, $file.'.bak');
     }

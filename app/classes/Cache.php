@@ -47,21 +47,18 @@ class Cache
 {
     /**
     * Whether caching is enabled
-    * @var bool
     */
-    public static $enabled = true;
+    public static bool $enabled = true;
 
     /**
     * Place to store the cache files
-    * @var string
     */
-    protected static $store = '/dev/shm/';
+    protected static string $store = '/dev/shm/';
         
     /**
     * Prefix to use on cache files
-    * @var string
     */
-    protected static $prefix = 'cache_';
+    protected static string $prefix = 'cache_';
 
     /**
     * Stores data
@@ -70,7 +67,7 @@ class Cache
     * @param string $id    Unique ID of this data
     * @param int    $ttl   How long to cache for (in seconds)
     */
-    protected static function write($group, $id, $ttl, $data)
+    protected static function write(string $group, string $id, int $ttl, string $data) : void
     {
         $filename = self::getFilename($group, $id);
             
@@ -91,7 +88,7 @@ class Cache
     * @param string $group Group to store data under
     * @param string $id    Unique ID of this data
     */
-    protected static function read($group, $id)
+    protected static function read($group, $id) : string
     {
         $filename = self::getFilename($group, $id);
             
@@ -104,7 +101,7 @@ class Cache
     * @param string $group Group to store data under
     * @param string $id    Unique ID of this data
     */
-    protected static function isCached($group, $id)
+    protected static function isCached($group, $id) : bool
     {
         $filename = self::getFilename($group, $id);
 
@@ -126,7 +123,7 @@ class Cache
     * @param string $group Group to store data under
     * @param string $id    Unique ID of this data
     */
-    protected static function getFilename($group, $id)
+    protected static function getFilename(string $group, string $id) : string
     {
         $id = md5($id);
 
@@ -138,7 +135,7 @@ class Cache
     *
     * @param string $prefix Filename Prefix to use
     */
-    public static function setPrefix($prefix)
+    public static function setPrefix($prefix) : void
     {
         self::$prefix = $prefix;
     }
@@ -149,7 +146,7 @@ class Cache
     *
     * @param string $store The dir to store the cache data in
     */
-    public static function setStore($store)
+    public static function setStore($store) : void
     {
         self::$store = $store;
     }
@@ -162,21 +159,18 @@ class OutputCache extends Cache
 {
     /**
     * Group of currently being recorded data
-    * @var string
     */
-    private static $group;
+    private static string $group;
         
     /**
     * ID of currently being recorded data
-    * @var string
     */
-    private static $id;
+    private static string $id;
         
     /**
     * Ttl of currently being recorded data
-    * @var int
     */
-    private static $ttl;
+    private static int $ttl;
 
     /**
     * Starts caching off. Returns true if cached, and dumps
@@ -187,7 +181,7 @@ class OutputCache extends Cache
     * @param  int    $ttl   How long to cache for (in seconds)
     * @return bool          True if cached, false if not
     */
-    public static function Start($group, $id, $ttl)
+    public static function Start($group, $id, $ttl) : bool
     {
         if (self::isCached($group, $id)) {
             echo self::read($group, $id);
@@ -206,7 +200,7 @@ class OutputCache extends Cache
     /**
     * Ends caching. Writes data to disk.
     */
-    public static function End()
+    public static function End() : void
     {
         $data = ob_get_contents();
         ob_end_flush();
@@ -228,7 +222,7 @@ class DataCache extends Cache
     * @param  string $id    Unique ID of the data
     * @return mixed         Either the resulting data, or null
     */
-    public static function Get($group, $id)
+    public static function Get($group, $id) : mixed
     {
         if (self::isCached($group, $id)) {
             return unserialize(self::read($group, $id));
@@ -245,7 +239,7 @@ class DataCache extends Cache
     * @param int    $ttl   How long to cache for (in seconds)
     * @param mixed  $data  The data to store
     */
-    public static function Put($group, $id, $ttl, $data)
+    public static function Put($group, $id, $ttl, $data) : void
     {
         self::write($group, $id, $ttl, serialize($data));
     }

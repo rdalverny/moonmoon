@@ -6,11 +6,13 @@
 class PlanetConfig
 {
 
+    /** @var array<string, mixed> */
     protected $conf = [];
 
     private ?string $opmlFile = null;
     private ?string $cacheDir = null;
 
+    /** @var array<string, mixed> */
     public static $defaultConfig = [
         'url'           => 'http://www.example.com/',
         'name'          => '',
@@ -26,7 +28,7 @@ class PlanetConfig
 
     /**
      * PlanetConfig constructor.
-     * @param array $userConfig
+     * @param array<string, mixed> $userConfig
      * @param bool  $useDefaultConfig
      */
     public function __construct($userConfig = [], $useDefaultConfig = true)
@@ -36,9 +38,8 @@ class PlanetConfig
     }
 
     /**
-     * @return static
      */
-    public static function load(string $dir)
+    public static function load(string $dir) : PlanetConfig
     {
         $config = new PlanetConfig;
 
@@ -108,7 +109,7 @@ class PlanetConfig
             self::migrate_file('people.opml');
     }
 
-    public static function migrate_file($file) : bool
+    public static function migrate_file(string $file) : bool
     {
         $source = custom_path($file);
         $dest = config_path($file);
@@ -127,36 +128,36 @@ class PlanetConfig
     /**
      * Merge the configuration of the user in the default one.
      *
-     * @param array $default
-     * @param array $user
-     * @return array
+     * @param array<string, mixed> $default
+     * @param array<string, mixed> $user
+     * @return array<string, mixed>
      */
     protected function merge($default = [], $user = [])
     {
         return array_merge($default, $this->normalizeArrayKeys($user));
     }
 
-    public function getUrl()
+    public function getUrl() : string
     {
         return $this->conf['url'];
     }
 
-    public function getName()
+    public function getName() : string
     {
         return $this->conf['name'];
     }
 
-    public function setName($name)
+    public function setName(string $name) : void
     {
         $this->conf['name'] = $name;
     }
 
-    public function getCacheTimeout()
+    public function getCacheTimeout() : int
     {
         return $this->conf['refresh'];
     }
 
-    public function getCacheDir()
+    public function getCacheDir() : string
     {
         if (is_null($this->cacheDir)) {
             $this->cacheDir = realpath(__DIR__ . '/../../'.$this->conf['cachedir']);
@@ -164,7 +165,7 @@ class PlanetConfig
         return $this->cacheDir;
     }
 
-    public function getOpmlFile()
+    public function getOpmlFile() : string
     {
         if (is_null($this->opmlFile)) {
             $this->opmlFile = realpath(config_path('people.opml'));
@@ -172,51 +173,51 @@ class PlanetConfig
         return $this->opmlFile;
     }
 
-    public function getOutputTimeout()
+    public function getOutputTimeout() : int
     {
         return $this->conf['cache'];
     }
 
-    public function getMaxDisplay()
+    public function getMaxDisplay() : int
     {
         return $this->conf['items'];
     }
 
-    public function getCategories()
+    public function getCategories() : string
     {
         return $this->conf['categories'];
     }
 
-    public function toYaml()
+    public function toYaml() : string
     {
         return Spyc::YAMLDump($this->conf, 4);
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray()
     {
         return $this->conf;
     }
 
-    public function getDebug()
+    public function getDebug() : bool
     {
         return $this->conf['debug'];
     }
 
-    public function checkCertificates()
+    public function checkCertificates() : bool
     {
         return $this->conf['checkcerts'];
     }
 
-    public function getLocale()
+    public function getLocale() : string
     {
         return $this->conf['locale'];
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function getDefaultConfig()
     {
@@ -229,7 +230,7 @@ class PlanetConfig
      * @param  string $key
      * @return string
      */
-    protected function normalizeKeyName($key = null)
+    protected function normalizeKeyName(string $key) : string
     {
         return strtolower($key);
     }
@@ -237,8 +238,8 @@ class PlanetConfig
     /**
      * Normalize all the keys of the array.
      *
-     * @param  array $array
-     * @return array
+     * @param  array<string, mixed> $array
+     * @return array<string, mixed>
      */
     protected function normalizeArrayKeys($array = [])
     {
@@ -258,7 +259,7 @@ class PlanetConfig
      *
      * @return mixed|null
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         $key = $this->normalizeKeyName($key);
 
@@ -269,11 +270,8 @@ class PlanetConfig
 
     /**
      * Generic configuration setter.
-     *
-     * @param $key
-     * @param $value
      */
-    public function __set($key, $value)
+    public function __set(string $key, mixed $value) : void
     {
         $key = $this->normalizeKeyName($key);
 

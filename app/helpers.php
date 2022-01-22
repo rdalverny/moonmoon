@@ -7,7 +7,7 @@
  * is available, and we won't force the use of our own
  * implementation.
  */
-function register_polyfills()
+function register_polyfills() : void
 {
 }
 
@@ -88,7 +88,7 @@ function _g($str, $comment = '')
 /**
  * Reset the moonmoon instance.
  */
-function removeCustomFiles()
+function removeCustomFiles() : void
 {
     $toRemove = [
         config_path('config.yml'),

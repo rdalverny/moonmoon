@@ -14,8 +14,10 @@ class Opml
 
     public string $title = '';
 
-    /** @var array<int, string> */
+    /** @var array<int, array<mixed>> */
     public $entries = array();
+
+    /** @var array<string, string> */
     private $map  =
         array(
             'URL'         => 'website',
@@ -30,7 +32,7 @@ class Opml
 
     /**
      * @param string $data
-     * @return array<int, string>
+     * @return array<int, array<mixed>>
     */
     public function parse(string $data) : array
     {
@@ -99,7 +101,7 @@ class Opml
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int, array<mixed>>
     */
     public function getPeople() : array
     {

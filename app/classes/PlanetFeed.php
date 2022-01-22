@@ -6,10 +6,10 @@
 
 class PlanetFeed extends SimplePie
 {
-    public $name;
-    public $feed;
-    public $website;
-    public $isDown;
+    public string $name;
+    public string $feed;
+    public string $website;
+    public string $isDown;
 
     public function __construct($name, $feed, $website, $isDown)
     {
@@ -46,22 +46,22 @@ class PlanetFeed extends SimplePie
         ]);
     }
 
-    public function getFeed()
+    public function getFeed() : string
     {
         return $this->feed;
     }
 
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-    public function getWebsite()
+    public function getWebsite() : string
     {
         return $this->website;
     }
 
-    public function getIsDown()
+    public function getIsDown() : string
     {
         return $this->isDown;
     }
@@ -69,8 +69,8 @@ class PlanetFeed extends SimplePie
     /**
      * Compare two Person by their name.
      *
-     * @param  $person1
-     * @param  $person2
+     * @param  PlanetFeed $person1
+     * @param  PlanetFeed $person2
      * @return int
      */
     public static function compare($person1, $person2)

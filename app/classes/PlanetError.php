@@ -2,30 +2,26 @@
 
 class PlanetError
 {
-    public $level;
+    public int $level;
+
+    /** @var array<int, string> */
     public $levels = array(
         1 => 'notice',
         2 => 'warning',
         3 => 'error',
     );
-    public $message;
+    public string $message;
 
     /**
      * PlanetError constructor.
-     * @param $level
-     * @param $message
      */
-    public function __construct($level, $message)
+    public function __construct(int $level, string $message)
     {
         $this->level = (int) $level;
         $this->message = $message;
     }
 
-    /**
-     * @param  string $format
-     * @return string
-     */
-    public function toString($format = '%1$s: %2$s')
+    public function toString(string $format = '%1$s: %2$s') : string
     {
         return sprintf($format, $this->levels[$this->level], $this->message);
     }
