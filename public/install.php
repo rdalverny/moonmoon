@@ -1,9 +1,8 @@
 <?php
-
-require_once __DIR__ . '/app/app.php';
+require_once '../app/app.php';
 
 // This is an helper function returning an html table row to avoid code duplication
-function installStatus($str, $msg, $result)
+function installStatus(string $str, string $msg, bool $result) : string
 {
     $class = ($result) ? 'ok' : 'fail';
     return '<tr><td>' . $str . '</td><td class="' . $class . '">' . $msg . '</td></tr>';
@@ -28,13 +27,13 @@ if ($PlanetConfig::isInstalled()) {
     ]);
 
     $CreatePlanetConfig = new PlanetConfig($config);
-    $save['config'] = file_put_contents(custom_path('config.yml'), $CreatePlanetConfig->toYaml());
+    $save['config'] = file_put_contents(config_path('config.yml'), $CreatePlanetConfig->toYaml());
 
-    OpmlManager::save(new Opml(), custom_path('people.opml'));
+    OpmlManager::save(new Opml(), config_path('people.opml'));
 
     //Save password
     $save['password'] = file_put_contents(
-        admin_path('inc/pwd.inc.php'),
+        config_path('pwd.inc.php'),
         sprintf('<?php $login="admin"; $password="%s"; ?>', hash('sha256', $_POST['password']))
     );
 
@@ -73,23 +72,22 @@ if ($PlanetConfig::isInstalled()) {
 
     // Writable file requirements
     $tests = array(
-        '/custom',
-        '/custom/people.opml',
-        '/admin/inc/pwd.inc.php',
-        '/cache',
+        config_path('config.yml'),
+        config_path('people.opml'),
+        config_path('pwd.inc.php'),
+        cache_path('test_cache'),
     );
 
     // We now test that all required files and directories are writable.
-    foreach ($tests as $v) {
-        $filename = __DIR__ . $v;
+    foreach ($tests as $filename) {
         if (touch($filename)) {
-            $strInstall .= installStatus("<code>$v</code> is writable", 'OK', true);
+            $strInstall .= installStatus("<code>$filename</code> is writable", 'OK', true);
             if (is_file($filename)) {
                 unlink($filename);
             }
         } else {
-            $strInstall .= installStatus("<code>$v</code> is writable", 'FAIL', false);
-            $strRecommendation .= "<li>Make <code>$v</code> writable with CHMOD</li>";
+            $strInstall .= installStatus("<code>$filename</code> is writable", 'FAIL', false);
+            $strRecommendation .= "<li>Make <code>$filename</code> writable with CHMOD</li>";
         }
     }
 

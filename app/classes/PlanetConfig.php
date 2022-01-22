@@ -41,22 +41,30 @@ class PlanetConfig
     public static function load(string $dir)
     {
         $config = new PlanetConfig;
-        $configFile = realpath($dir . '/../custom/config.yml');
 
-        if (self::isInstalled()) {
-            $conf = Spyc::YAMLLoad($configFile);
-
-            // this is a check to upgrade older config file without l10n
-            if (!isset($conf['locale'])) {
-                $resetPlanetConfig = new PlanetConfig($conf);
-                file_put_contents($configFile, $resetPlanetConfig->toYaml());
-                $conf = Spyc::YAMLLoad($configFile);
-
-                return $resetPlanetConfig;
+        if (!self::isInstalled()) {
+            if (!self::isInstalledPre10Version()) {
+                return $config;
             }
 
-            $config = new PlanetConfig($conf);
+            if (!self::migratePre10Version()) {
+                error_log('Failed to migrate configuration.');
+                return $config;
+            }
         }
+
+        $configFile = realpath(config_path('config.yml'));
+        $conf = Spyc::YAMLLoad($configFile);
+
+        // this is a check to upgrade older config file without l10n
+        if (!isset($conf['locale'])) {
+            $resetPlanetConfig = new PlanetConfig($conf);
+            file_put_contents($configFile, $resetPlanetConfig->toYaml());
+            $conf = Spyc::YAMLLoad($configFile);
+            return $resetPlanetConfig;
+        }
+
+        $config = new PlanetConfig($conf);
 
         return $config;
     }
@@ -68,8 +76,52 @@ class PlanetConfig
      */
     public static function isInstalled() : bool
     {
+        return file_exists(config_path('config.yml')) &&
+            file_exists(config_path('people.opml'));
+    }
+
+    /**
+     * Or is it a pre-10 version installed?
+     * (that is, config is stored in custom/config.yml instead of custom/config/config.yml)
+     */
+    public static function isInstalledPre10Version(): bool
+    {
         return file_exists(custom_path('config.yml')) &&
             file_exists(custom_path('people.opml'));
+    }
+
+    /**
+     * Migrate config files from old to new location.
+     * Purge cache.
+     *
+     * @return bool true if succeeded, false otherwise
+     */
+    public static function migratePre10Version() : bool
+    {
+        if (!is_dir(config_path())) {
+            if (!mkdir(config_path(), 0777, true)) {
+                return false;
+            }
+        }
+
+        return self::migrate_file('config.yml') &&
+            self::migrate_file('people.opml');
+    }
+
+    public static function migrate_file($file) : bool
+    {
+        $source = custom_path($file);
+        $dest = config_path($file);
+        if (!copy($source, $source . '.bak')) {
+            error_log("Failed to make a backup of ${source}");
+            return false;
+        }
+        if (!rename($source, $dest)) {
+            error_log("Failed to move ${source} to ${dest}");
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -115,7 +167,7 @@ class PlanetConfig
     public function getOpmlFile()
     {
         if (is_null($this->opmlFile)) {
-            $this->opmlFile = realpath(__DIR__ . '/../../custom/people.opml');
+            $this->opmlFile = realpath(config_path('people.opml'));
         }
         return $this->opmlFile;
     }

@@ -1,8 +1,10 @@
 <?php
-include_once(__DIR__.'/app/app.php');
-include_once(__DIR__.'/app/classes/Cache.php');
+require_once '../../app/app.php';
+require_once '../../app/classes/Cache.php';
 
 if ($Planet->loadOpml($PlanetConfig->getOpmlFile()) == 0) {
+    header('Content-Type: text/xml; charset=utf-8');
+    header('HTTP/1.1 404 Not Found');
     exit;
 }
 
@@ -18,7 +20,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>';
     <title><?=htmlspecialchars($PlanetConfig->getName())?></title>
     <subtitle><?=htmlspecialchars($PlanetConfig->getName())?></subtitle>
     <id><?=$PlanetConfig->getUrl()?></id>
-    <link rel="self" type="application/atom+xml" href="<?=$PlanetConfig->getUrl()?>atom.php" />
+    <link rel="self" type="application/atom+xml" href="<?=$PlanetConfig->getUrl()?>feed/" />
     <link rel="alternate" type="text/html" href="<?=$PlanetConfig->getUrl()?>" />
     <updated><?=gmdate('Y-m-d\TH:i:s\Z')?></updated>
     <author><name><?=htmlspecialchars($PlanetConfig->getName())?></name></author>

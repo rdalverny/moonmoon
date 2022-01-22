@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../app/app.php';
+require_once __DIR__ . '/../../app/app.php';
 
 setcookie('auth', '', time() - 3600);
 session_destroy();

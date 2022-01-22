@@ -5,7 +5,9 @@
 	<file>.</file>
 	<arg value="np"/>
 	<arg name="colors"/>
-	<arg name="extensions" value="php,inc"/>
+	<arg name="extensions" value="php"/>
 	<arg name="encoding" value="utf8"/>
+	<exclude-pattern>cache/</exclude-pattern>
+	<exclude-pattern>tmp/</exclude-pattern>
 	<exclude-pattern>vendor/</exclude-pattern>
 </ruleset>

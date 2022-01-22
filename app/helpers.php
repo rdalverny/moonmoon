@@ -18,8 +18,9 @@ register_polyfills();
  *
  * @param  string $file Append this filename to the returned path.
  * @return string
+ * @deprecated
  */
-function custom_path($file = '')
+function custom_path($file = '') : string
 {
     return __DIR__.'/../custom' . (!empty($file) ? '/'.$file : '');
 }
@@ -29,8 +30,9 @@ function custom_path($file = '')
  *
  * @param  string $file Append this filename to the returned path.
  * @return string
+ * @deprecated
  */
-function views_path($file = '')
+function views_path($file = '') : string
 {
     return custom_path('views/' . $file);
 }
@@ -40,10 +42,35 @@ function views_path($file = '')
  *
  * @param  string $file Append this filename to the returned path.
  * @return string
+ * @deprecated
  */
-function admin_path($file = '')
+function admin_path($file = '') : string
 {
     return __DIR__.'/../admin' . (!empty($file) ? '/'.$file : '');
+}
+
+/**
+ * Path to the _config_ directory.
+ *
+ * @param  string $file Append this filename to the returned path
+ * @param  string $site Append this site as a sub-directory before the file
+ * @return string
+ */
+function config_path($file = '', $site = '') : string
+{
+    $path = __DIR__ . '/../custom/config';
+    if (!empty($site)) {
+        $path .= '/' . $site;
+    }
+    if (!empty($file)) {
+        $path .= '/' . $file;
+    }
+    return $path;
+}
+
+function cache_path($site = '') : string
+{
+    return __DIR__ . '/../cache';
 }
 
 /**
@@ -64,10 +91,16 @@ function _g($str, $comment = '')
 function removeCustomFiles()
 {
     $toRemove = [
+        config_path('config.yml'),
+        config_path('people.opml'),
+        config_path('people.opml.bak'),
+        cache_path('cache'),
+
+        // legacy location
         custom_path('config.yml'),
+        custom_path('config.yml.bak'),
         custom_path('people.opml'),
         custom_path('people.opml.bak'),
-        custom_path('cache')
     ];
 
     foreach ($toRemove as $path) {

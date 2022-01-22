@@ -1,15 +1,16 @@
+.DS_Store
+.idea
+.phpunit.*
 /cache
 /custom/config.yml
 /custom/people.opml
 /custom/people.opml.bak
+/custom/config
 /admin/inc/pwd.inc.php
 
 /vendor/
 /tests/_output/*
 
 /nbproject/private/
-/.idea/
 tmp/
-
-.phpunit.result.cache
-
+public/tests

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../app/app.php';
+require_once __DIR__ . '/../../app/app.php';
 
 if (isset($_POST['password'])) {
     session_regenerate_id();
@@ -10,7 +10,7 @@ if (isset($_POST['password'])) {
     // check if old moonmoon was installed and convert stored password
     // from md5 to current hash function
     $md5_pwd  = md5($_POST['password']);
-    $passfile = dirname(__FILE__) . '/inc/pwd.inc.php';
+    $passfile = config_path('pwd.inc.php');
     include($passfile);
 
     if ($md5_pwd == $password) {

@@ -1,10 +1,6 @@
 <?php
 
-include dirname(__FILE__).'/pwd.inc.php';
-
-if (!class_exists('Planet')) {
-    require __DIR__.'/../../vendor/autoload.php';
-}
+include config_path('pwd.inc.php');
 
 if (!Planet::authenticateUser($_COOKIE['auth'] ?? '', $password)) {
     setcookie('auth', '', time() - 3600);

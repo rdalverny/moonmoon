@@ -1,6 +1,6 @@
 <?php
-include_once(__DIR__.'/app/app.php');
-include_once(__DIR__.'/app/classes/Cache.php');
+require_once '../app/app.php';
+require_once '../app/classes/Cache.php';
 
 if (!$PlanetConfig::isInstalled()) {
     die('<p>' . _g('You might want to <a href="install.php">install moonmoon</a>.') . '</p>');
@@ -18,7 +18,7 @@ if ($pageRole == 'atom10') {
      * Remove this check in a more distant future.
      */
     header('Status: 301 Moved Permanently', false, 301);
-    header('Location: atom.php');
+    header('Location: feed/');
     exit;
 }
 
@@ -29,7 +29,7 @@ Cache::setStore($PlanetConfig->getCacheDir() . '/');
 if (!OutputCache::Start('html', $pageRole, $cache_duration)) {
     $items = $Planet->getFeedsItems();
     $last_modified  = (count($items)) ? $items[0]->get_date() : '';
-    include_once(__DIR__.'/custom/views/'.$pageTheme.'/'.$pageRole.'.tpl.php');
+    include_once '../custom/views/'.$pageTheme.'/'.$pageRole.'.tpl.php';
     OutputCache::End();
 }
 

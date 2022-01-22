@@ -3,11 +3,13 @@ VENDOR=./vendor/bin/
 PHPUNIT=php -dxdebug.enabled=1 -dxdebug.mode=coverage ./vendor/bin/phpunit --coverage-text
 
 test:
-	{ php -S 127.0.0.1:8081 >& /dev/null & }; \
+	rm -f public/tests && ln -s ../tests public/tests
+	{ php -S 127.0.0.1:8081 -t public/ >& /dev/null & }; \
 	PID=$$!; \
 	$(PHPUNIT); \
 	RES=$$?; \
 	kill $$PID; \
+	rm public/tests
 	exit $$RES
 
 fmt:
@@ -24,9 +26,13 @@ stan:
 
 report:
 	$(VENDOR)phpmd \
-		admin,app,custom,docs,tests,atom.php,cron.php,index.php,install.php,postload.php \
+		app,custom,docs,tests,public \
 		html \
 		cleancode,codesize,controversial,design,naming,unusedcode > tmp/report.html
 
 serve:
-	php -S localhost:5555 -t .
+	php -S localhost:5555 -t public/
+
+clean:
+	rm -fr ./cache/*
+	rm -fr ./custom/config/*

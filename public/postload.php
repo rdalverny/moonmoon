@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/app/app.php';
+require_once '../app/app.php';
 
 if (!$PlanetConfig::isInstalled()) {
     die();
@@ -20,7 +20,7 @@ foreach ($xml->xpath('/opml/body/outline[@xmlUrl]') as $element) {
 
         $Planet->download(1);
         header('Content-type: image/png');
-        readfile(custom_path('img/feed.png'));
+        readfile(__DIR__ . '/custom/img/feed.png');
         die();
     }
 }
