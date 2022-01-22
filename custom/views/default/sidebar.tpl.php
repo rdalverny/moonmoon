@@ -14,14 +14,14 @@ usort($all_people, array('PlanetFeed', 'compare'));
             <?php endforeach; ?>
         </ul>
         <p>
-        <img src="custom/img/opml.png" alt="<?=_g('Feed')?>" height="12" width="12" /> <a href="custom/people.opml"><?=_g('All feeds in OPML format')?></a>
+        <img src="custom/img/opml.png" alt="<?=_g('Feed')?>" height="12" width="12" /> <a href="opml/"><?=_g('All feeds in OPML format')?></a>
         </p>
     </div>
 
     <div class="section">
         <h2><?=_g('Syndicate')?></h2>
         <ul>
-            <li><img src="custom/img/feed.png" alt="<?=_g('Feed')?>" height="12" width="12" />&nbsp;<a href="atom.php"><?=_g('Feed (ATOM)')?></a></li>
+            <li><img src="custom/img/feed.png" alt="<?=_g('Feed')?>" height="12" width="12" />&nbsp;<a href="feed/"><?=_g('Feed (ATOM)')?></a></li>
         </ul>
     </div>
 

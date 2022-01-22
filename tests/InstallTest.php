@@ -100,4 +100,24 @@ class InstallTest extends GuzzleHarness
         $this->assertFileExists(custom_path('config.yml.bak'), "Backup config is kept");
         $this->assertFileExists(custom_path('people.opml.bak'), "Backup OPML is kept");
     }
+
+    public function testFetchPublicOPML()
+    {
+        $data = [
+            'url' => 'http://127.0.0.1:8081/',
+            'title' => 'My website',
+            'password' => 'admin',
+            'locale' => 'en',
+        ];
+
+        $res = $this->client->request('POST', '/install.php', [
+            'form_params' => $data
+        ]);
+        $this->assertEquals(200, $res->getStatusCode());
+        $this->assertStringContainsString('Your moonmoon is ready.', (string) $res->getBody());
+
+        $res = $this->client->get('/opml/');
+        $this->assertEquals(200, $res->getStatusCode());
+        $this->assertXmlStringEqualsXmlFile(config_path('people.opml'), (string) $res->getBody());
+    }
 }
