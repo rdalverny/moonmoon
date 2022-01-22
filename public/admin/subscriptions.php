@@ -22,6 +22,9 @@ if (isset($_POST['upload']) &&
     $newOpml = new Opml();
     $newOpml->parse(file_get_contents($_FILES['opml']['tmp_name']));
     OpmlManager::save($newOpml, $opmlFile);
+
+    Cache::setStore($PlanetConfig->getCacheDir() . '/');
+    Cache::prune("html");
 } elseif (isset($_POST['opml']) || isset($_POST['add'])) {
     // Load old OPML
     $oldOpml = OpmlManager::load($opmlFile);
@@ -79,6 +82,9 @@ if (isset($_POST['upload']) &&
 
     // Save new OPML
     OpmlManager::save($newOpml, $opmlFile);
+
+    Cache::setStore($PlanetConfig->getCacheDir() . '/');
+    Cache::prune("html");
 }
 header("Location: index.php");
 die();

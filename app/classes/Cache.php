@@ -115,6 +115,21 @@ class Cache
 
         return false;
     }
+
+    public static function prune(string $group, ?string $id = null) : void
+    {
+        if (is_null($id)) {
+            $filenames = glob(self::$store . self::$prefix . "{$group}_*");
+        } else {
+            $filenames = [self::getFilename($group, $id)];
+        }
+
+        foreach ($filenames as $filename) {
+            if (is_file($filename)) {
+                unlink($filename);
+            }
+        }
+    }
         
     /**
     * Builds a filename/path from group, id and
