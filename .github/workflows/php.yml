@@ -1,31 +1,31 @@
 name: PHP Composer
 
 on:
+  push:
+  pull_request:
   workflow_dispatch:
-#  push:
-#    branches:
-#    - master
-#    - 10-dev
-#  pull_request:
-#    branches:
-#    - master
-#    - 10-dev
 
 jobs:
   build:
     name: Test on ${{ matrix.php_version }} / {{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
+
     strategy:
+      fail-fast: false
       matrix:
-        php_version: ['8.1', '8.0']
-        os: [ubuntu-latest]
+        php: ['8.1', '8.0']
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use PHP ${{ matrix.php_version }}
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install PHP ${{ matrix.php_version }}
       uses: actions/setup-php@v2
       with:
-        php-version: ${{ matrix.php_version }}
+        php-version: ${{ matrix.php }}
+        ini-values: error_reporting=-1, display_errors=On, log_errors_max_len=0
+        coverage: none
+        tools: none
         extensions: curl, mbstring, xml, xmlreader
 
     - name: Validate composer.json and composer.lock
