@@ -1,0 +1,50 @@
+name: PHP Composer
+
+on:
+  workflow_dispatch:
+#  push:
+#    branches:
+#    - master
+#    - 10-dev
+#  pull_request:
+#    branches:
+#    - master
+#    - 10-dev
+
+jobs:
+  build:
+    name: Test on ${{ matrix.php_version }} / {{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        php_version: ['8.1', '8.0']
+        os: [ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use PHP ${{ matrix.php_version }}
+      uses: actions/setup-php@v2
+      with:
+        php-version: ${{ matrix.php_version }}
+        extensions: curl, mbstring, xml, xmlreader
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+    # Docs: https://getcomposer.org/doc/articles/scripts.md
+
+    - name: Run test suite
+      run: make test
