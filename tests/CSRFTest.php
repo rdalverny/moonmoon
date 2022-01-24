@@ -23,14 +23,24 @@ class CSRFTest extends TestCase
         CSRF::generate(null);
     }
 
-    public function testVerify()
+    public function verifyProvider()
     {
         $token = CSRF::generate("some-action");
-        $this->assertEquals(CSRF::verify($token, "some-action"), true);
-        $this->assertEquals(CSRF::verify($token, "other-action"), false);
-        $this->assertEquals(CSRF::verify("anything-else", "some-action"), false);
-        $this->assertEquals(CSRF::verify(1, "string"), false);
-        $this->assertEquals(CSRF::verify("string", 2), false);
-        $this->assertEquals(CSRF::verify(null, null), false);
+        return [
+            'valid pair'        => [$token, 'some-action', true],
+            'different action'  => [$token, 'other-action', false],
+            'wrong token value' => ['anything-else', 'some-action', false],
+            'wrong token type'  => [1, 'string', false],
+            'wrong action type' => ['string', 2, false],
+            'null token/action' => [null, null, false]
+        ];
+    }
+
+    /**
+     * @dataProvider verifyProvider
+     */
+    public function testVerify($token, $action, $expected)
+    {
+        $this->assertEquals(CSRF::verify($token, $action), $expected);
     }
 }

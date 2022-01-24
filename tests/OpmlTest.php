@@ -32,22 +32,48 @@ class OpmlManagerTest extends TestCase
         ];
     }
 
-    public function testParse()
+    public function parseProvider()
     {
-        foreach ($this->fixtures as $data) {
-            $given = $data[0];
-            $entries = $data[1];
+        return [
+            [file_get_contents('./tests/opml/test-empty.opml'), [], '', '', '', ''],
+            [
+                file_get_contents('./tests/opml/test-valid.opml'),
+                [
+                    [
+                        'website' => 'https://blog.example.com/',
+                        'name' => 'text 1',
+                        'feed' => 'https://some.other.example.com/feed/path',
+                        'isDown' => '',
+                    ],
+                    [
+                        'website' => 'https://blog2.example.com',
+                        'name' => 'text 2',
+                        'feed' => 'https://blog2.example.com/rss.xml',
+                        'isDown' => '',
+                    ]
+                ],
+                'Test OPML',
+                'user name',
+                'user@example.com',
+                'http://user.example.com/'
+            ]
+        ];
+    }
 
-            $opml = new Opml();
-            $entries = $opml->parse($given);
+    /**
+     * @dataProvider parseProvider
+     */
+    public function testParse($feedContents, $feeds, $title, $name, $email, $id)
+    {
+        $opml = new Opml();
+        $entries = $opml->parse($feedContents);
 
-            $this->assertEquals($data[1], $entries);
-            $this->assertEquals($data[1], $opml->entries);
-            $this->assertEquals($data[1], $opml->getPeople());
-            $this->assertEquals($data[2], $opml->getTitle());
-            $this->assertEquals($data[3], $opml->ownerName);
-            $this->assertEquals($data[4], $opml->ownerEmail);
-            $this->assertEquals($data[5], $opml->ownerId);
-        }
+        $this->assertEquals($feeds, $entries);
+        $this->assertEquals($feeds, $opml->entries);
+        $this->assertEquals($feeds, $opml->getPeople());
+        $this->assertEquals($title, $opml->getTitle());
+        $this->assertEquals($name, $opml->ownerName);
+        $this->assertEquals($email, $opml->ownerEmail);
+        $this->assertEquals($id, $opml->ownerId);
     }
 }
