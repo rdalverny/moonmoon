@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [Unreleased] 10-dev branch as of 2022-01-22
+
+## [10.0.0-rc] - 2022-01-25
 
 - Removed: support for PHP versions older than 7.2
+- Added: atom feed is now cached too
 - Added: support for PHP from 7.2 to 8.1
 - Added: this changelog
 - Added: PHP version support policy (see README.md)
@@ -71,14 +73,15 @@ This should help for people using newer versions of PHP. There are no new featur
 The RC will be available for a few weeks. If not bug is reported, it will become the official 9.0.0.
 
 
-### Pre 9.0.0
+### [Pre-9] - Before 2017-01
 
 ---
 
 [Unreleased]: https://github.com/rdalverny/moonmoon/compare/9.0.0-rc.3...10-dev
+[10.0.0-rc]: https://github.com/rdalverny/moonmoon/releases/tag/10.0.0-rc
 [9.0.0-rc.3]: https://github.com/moonmoon/moonmoon/compare/9.0.0-rc.2...9.0.0-rc.3
 [9.0.0-rc.2]: https://github.com/moonmoon/moonmoon/compare/9.0.0-rc...9.0.0-rc.2
 [9.0.0-rc]: https://github.com/moonmoon/moonmoon/releases/tag/9.0.0-rc
-[pre-9]: https://github.com/moonmoon/moonmoon/compare/ec4326e4bab52c558d1f2564ab2fa0545f81b071...23267b401439199a8bf3d5c9733f70d5d0e3d3d1
+[Pre-9]: https://github.com/moonmoon/moonmoon/compare/ec4326e4bab52c558d1f2564ab2fa0545f81b071...23267b401439199a8bf3d5c9733f70d5d0e3d3d1
 
 ---
