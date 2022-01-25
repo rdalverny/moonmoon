@@ -8,7 +8,7 @@ class PlanetItem extends SimplePie_Item
 {
     /**
      * @param SimplePie $feed
-     * @param string $data
+     * @param array $data
      */
     public function __construct($feed, $data)
     {

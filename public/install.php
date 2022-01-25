@@ -27,9 +27,9 @@ if ($PlanetConfig->isInstalled()) {
     ]);
 
     $PlanetConfig->setConfig($config);
-    $save['config'] = $PlanetConfig->saveConfig();
+    $save['config'] = (int) $PlanetConfig->saveConfig();
     $PlanetConfig->saveOpml(new Opml());
-    $save['password'] = $PlanetConfig->saveAdminPassword(hash('sha256', $_POST['password']));
+    $save['password'] = (int) $PlanetConfig->saveAdminPassword(hash('sha256', $_POST['password']));
 
     if (0 != ($save['config'] + $save['password'])) {
         $status = 'installed';

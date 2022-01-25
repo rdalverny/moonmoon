@@ -155,8 +155,10 @@ class PlanetConfig
 
         return true;
     }
-
-    public function setConfig($userConfig = [])
+    /**
+     * @param array<string,mixed> $userConfig
+     */
+    public function setConfig($userConfig = []) : void
     {
         $this->conf = $this->merge(self::$defaultConfig, $userConfig);
     }
@@ -322,8 +324,10 @@ class PlanetConfig
 
     /**
      * Generic configuration setter.
+     * @param string $key
+     * @param mixed $value
      */
-    public function __set(string $key, mixed $value) : void
+    public function __set(string $key, $value) : void
     {
         $key = $this->normalizeKeyName($key);
 

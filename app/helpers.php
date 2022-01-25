@@ -56,7 +56,7 @@ function admin_path($file = '') : string
  * @param  string $site Append this site as a sub-directory before the file
  * @return string
  */
-function config_path($file = '', $site = '') : string
+function config_path(string $file = '', string $site = '') : string
 {
     $path = __DIR__ . '/../custom/config';
     if (!empty($site)) {
@@ -68,11 +68,14 @@ function config_path($file = '', $site = '') : string
     return $path;
 }
 
-function cache_path($site = '') : string
+function cache_path(string $file, string $site = '') : string
 {
     $path = __DIR__ . '/../cache';
     if (!empty($site)) {
         $path .= '/' . $site;
+    }
+    if (!empty($file)) {
+        $path .= '/' . $file;
     }
     return $path;
 }

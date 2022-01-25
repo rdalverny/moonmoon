@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   test:
-    name: Test on ${{ matrix.php }}
+    name: "Test on PHP ${{ matrix.php }}"
     runs-on: ubuntu-latest
 
     strategy:
@@ -39,7 +39,7 @@ jobs:
       run: composer validate
       # run: composer validate --strict
 
-    - name: Cache Composer packages
+    - name: "Cache Composer packages"
       id: composer-cache
       uses: actions/cache@v2
       with:
@@ -48,13 +48,13 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
 
-    - name: Install dependencies
+    - name: "Install dependencies"
       run: composer install --prefer-dist --no-progress
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
-    - name: Run test suite
+    - name: "Run test suite"
       run: |
         rm -f public/tests && ln -s ../tests public/tests
         nohup php -S php -S 127.0.0.1:8081 -t public/ > phpd.log 2>&1 &
