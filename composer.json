@@ -1,5 +1,5 @@
 {
-    "name": "mauricesvay/moonmoon",
+    "name": "moonmoon/moonmoon",
     "description": "Moonmoon is a simple feed aggregator.",
     "homepage": "http://moonmoon.org/",
     "type": "project",
@@ -10,6 +10,12 @@
         {
             "name": "Maurice Svay",
             "email": "maurice@svay.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/moonmoon/moonmoon"
         }
     ],
     "minimum-stability": "stable",

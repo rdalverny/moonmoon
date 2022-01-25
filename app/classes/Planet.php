@@ -147,7 +147,8 @@ class Planet
                 $opml_person['name'],
                 $opml_person['feed'],
                 $opml_person['website'],
-                $opml_person['isDown'] ?? 0
+                $opml_person['isDown'] ?? 0,
+                $this->config->getCacheDir()
             );
             $this->addPerson($person);
         }

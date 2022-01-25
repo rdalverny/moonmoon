@@ -9,7 +9,7 @@ class PlanetFeedTest extends TestCase
 
     public function setUp() : void
     {
-        $this->feed = new PlanetFeed('Test Feed', 'http://localhost:8081/tests/feeds/feed-rss2.rss', 'http://localhost:8081/tests/', '');
+        $this->feed = new PlanetFeed('Test Feed', 'http://localhost:8081/tests/feeds/feed-rss2.rss', 'http://localhost:8081/tests/', '', false);
     }
 
     protected function _after()

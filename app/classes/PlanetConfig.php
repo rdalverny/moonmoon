@@ -43,12 +43,13 @@ class PlanetConfig
     {
         $config = new PlanetConfig;
 
-        if (!self::isInstalled()) {
-            if (!self::isInstalledPre10Version()) {
+        if (!$config->isInstalled()) {
+            // pre10 versions won't require $sitePrefix
+            if (!$config->isInstalledPre10Version()) {
                 return $config;
             }
 
-            if (!self::migratePre10Version()) {
+            if (!$config->migratePre10Version()) {
                 error_log('Failed to migrate configuration.');
                 return $config;
             }
@@ -75,7 +76,7 @@ class PlanetConfig
      *
      * @return bool
      */
-    public static function isInstalled() : bool
+    public function isInstalled() : bool
     {
         return file_exists(config_path('config.yml')) &&
             file_exists(config_path('people.opml'));
@@ -85,7 +86,7 @@ class PlanetConfig
      * Or is it a pre-10 version installed?
      * (that is, config is stored in custom/config.yml instead of custom/config/config.yml)
      */
-    public static function isInstalledPre10Version(): bool
+    public function isInstalledPre10Version(): bool
     {
         return file_exists(custom_path('config.yml')) &&
             file_exists(custom_path('people.opml'));
@@ -97,7 +98,7 @@ class PlanetConfig
      *
      * @return bool true if succeeded, false otherwise
      */
-    public static function migratePre10Version() : bool
+    public function migratePre10Version() : bool
     {
         if (!is_dir(config_path())) {
             if (!mkdir(config_path(), 0777, true)) {

@@ -11,7 +11,7 @@ class PlanetFeed extends SimplePie
     public string $website;
     public string $isDown;
 
-    public function __construct($name, $feed, $website, $isDown)
+    public function __construct(string $name, string $feed, string $website, string $isDown, string $cacheDir)
     {
         $this->name    = $name;
         $this->feed    = $feed;
@@ -19,7 +19,10 @@ class PlanetFeed extends SimplePie
         $this->isDown  = $isDown;
         parent::__construct();
         $this->set_item_class('PlanetItem');
-        $this->set_cache_location(__DIR__.'/../../cache');
+        if (empty($cacheDir)) {
+            $this->enable_cache(false);
+        }
+        $this->set_cache_location($cacheDir);
         $this->set_autodiscovery_level(SIMPLEPIE_LOCATOR_NONE);
         $this->set_feed_url($this->getFeed());
         $this->set_timeout(5);

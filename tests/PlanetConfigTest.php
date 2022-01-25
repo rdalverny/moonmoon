@@ -73,7 +73,7 @@ class PlanetConfigTest extends TestCase
 
     public function testConfigLoad()
     {
-        $conf = PlanetConfig::load(".");
+        $conf = PlanetConfig::load();
         $default = new PlanetConfig();
         $this->assertEquals($default, $conf);
     }

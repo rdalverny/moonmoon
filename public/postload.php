@@ -2,7 +2,7 @@
 
 require_once '../app/app.php';
 
-if (!$PlanetConfig::isInstalled()) {
+if (!$PlanetConfig->isInstalled()) {
     die();
 }
 
@@ -14,7 +14,8 @@ foreach ($xml->xpath('/opml/body/outline[@xmlUrl]') as $element) {
             '',
             $_GET['url'],
             '',
-            false
+            false,
+            $PlanetConfig->getCacheDir()
         );
         $Planet->addPerson($person);
 

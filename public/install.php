@@ -9,7 +9,7 @@ function installStatus(string $str, string $msg, bool $result) : string
 }
 
 // If the config file exists and the auth variables are set, moonmoon is already installed
-if ($PlanetConfig::isInstalled()) {
+if ($PlanetConfig->isInstalled()) {
     $status = 'installed';
 } elseif (isset($_POST['url'])) {
     // Do no try to use the file of an invalid locale
@@ -41,7 +41,7 @@ if ($PlanetConfig::isInstalled()) {
         $status = 'installed';
     }
 } else {
-    // We start by malking sure we have PHP5 as a base requirement
+    // We start by malking sure we have PHP7 as a base requirement
     if (version_compare(PHP_VERSION, '7.2.0') >= 0) {
         $strInstall = installStatus('Server is running at least PHP 7.2', 'OK', true);
         $strRecommendation = '';
