@@ -3,7 +3,7 @@
 </p>
 
 
-moonmoon [![Build Status](https://travis-ci.org/moonmoon/moonmoon.svg?branch=master)](https://travis-ci.org/moonmoon/moonmoon)
+moonmoon
 ========
 
 Moonmoon is a web based aggregator similar to planetplanet.
