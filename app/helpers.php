@@ -128,3 +128,14 @@ function getMultiSitePrefix(string $uri) : string
 
     return '';
 }
+
+// From https://gist.github.com/gladx/62fa307eb65586b6dbaaad75273c653d
+function humanFilesize(int $bytes, int $decimals = 2) : string
+{
+    if ($bytes < 1024) {
+        return $bytes . ' B';
+    }
+
+    $factor = floor(log($bytes, 1024));
+    return sprintf("%.{$decimals}f ", $bytes / pow(1024, $factor)) . ['B', 'KB', 'MB', 'GB', 'TB', 'PB'][$factor];
+}
