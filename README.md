@@ -6,6 +6,8 @@
 moonmoon
 ========
 
+[![Tests](https://github.com/rdalverny/moonmoon/actions/workflows/php.yml/badge.svg)](https://github.com/rdalverny/moonmoon/actions/workflows/php.yml)
+
 Moonmoon is a web based aggregator similar to planetplanet.
 It can be used to blend articles from different blogs with same interests into a single page.
 

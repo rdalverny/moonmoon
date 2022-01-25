@@ -4,7 +4,7 @@
     "homepage": "http://moonmoon.org/",
     "type": "project",
     "license": "BSD-3-Clause",
-    "version": "10.0.0-dev",
+    "version": "10.0.0-rc",
     "keywords": ["rss", "atom", "syndication", "planet", "blog"],
     "authors": [
         {
@@ -20,7 +20,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.2 || ^7.3 || ^7.4 || ^8.1 || ^8.2",
+        "php": "^7.2 || ^7.3 || ^7.4 || ^8.0 || ^8.1",
         "mustangostang/spyc": "^0.6.3",
         "simplepie/simplepie": "^1.5",
         "paragonie/random_compat": "^9.99"
@@ -42,6 +42,7 @@
         },
         "files": [
             "app/helpers.php"
-        ]
+        ],
+        "exclude-from-classmap": ["/tests/"]
     }
 }

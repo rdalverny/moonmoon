@@ -7,10 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [Unreleased]
+
+- Added: basic support for multiple instances hosting (849221e)
+- Added: show cache size usage in admin page (3075019)
+
 
 ## [10.0.0-rc] - 2022-01-25
 
 - Removed: support for PHP versions older than 7.2
+- Added: test workflow (.github/workflow/php.yml)
 - Added: atom feed is now cached too
 - Added: support for PHP from 7.2 to 8.1
 - Added: this changelog
@@ -35,6 +41,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Security: Javascript content is removed (fixes moonmoon/moonmoon#111)
 - Security: a stronger hash function is used for password storage (from/fixes moonmoon/moonmoon#10)
 
+
+## [9.x] branch - 2022-01-25
+
+Dedicated branch for 9.x support.
 
 ## [9.0.0-rc.3] - 2018-01-04
 
@@ -77,8 +87,9 @@ The RC will be available for a few weeks. If not bug is reported, it will become
 
 ---
 
-[Unreleased]: https://github.com/rdalverny/moonmoon/compare/9.0.0-rc.3...10-dev
+[Unreleased]: https://github.com/rdalverny/moonmoon/compare/10.0.0-rc...HEAD
 [10.0.0-rc]: https://github.com/rdalverny/moonmoon/releases/tag/10.0.0-rc
+[9.x]: https://github.com/rdalverny/moonmoon/tree/9.x
 [9.0.0-rc.3]: https://github.com/moonmoon/moonmoon/compare/9.0.0-rc.2...9.0.0-rc.3
 [9.0.0-rc.2]: https://github.com/moonmoon/moonmoon/compare/9.0.0-rc...9.0.0-rc.2
 [9.0.0-rc]: https://github.com/moonmoon/moonmoon/releases/tag/9.0.0-rc
