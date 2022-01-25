@@ -70,7 +70,11 @@ function config_path($file = '', $site = '') : string
 
 function cache_path($site = '') : string
 {
-    return __DIR__ . '/../cache';
+    $path = __DIR__ . '/../cache';
+    if (!empty($site)) {
+        $path .= '/' . $site;
+    }
+    return $path;
 }
 
 /**
@@ -108,4 +112,19 @@ function removeCustomFiles() : void
             unlink($path);
         }
     }
+}
+
+/**
+ * If request URI has more than one path component, return it,
+ * as it "may" be a site prefix (in case of a multisite setup).
+ */
+function getMultiSitePrefix(string $uri) : string
+{
+    error_log($uri);
+    $items = explode('/', $uri);
+    if (count($items) > 2) {
+        return $items[1];
+    }
+
+    return '';
 }
