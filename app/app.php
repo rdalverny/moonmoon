@@ -4,6 +4,8 @@ error_reporting(0);
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+$sitePrefix = empty(getenv('MULTISITE')) ? '' : getMultiSitePrefix($_SERVER['REQUEST_URI']);
+
 $moon_version = trim(file_get_contents(__DIR__.'/../VERSION'));
 
 session_start();

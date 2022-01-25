@@ -1,6 +1,6 @@
 <?php
 
-include config_path('pwd.inc.php');
+include $PlanetConfig->getAuthInc();
 
 if (!Planet::authenticateUser($_COOKIE['auth'] ?? '', $password)) {
     setcookie('auth', '', time() - 3600);

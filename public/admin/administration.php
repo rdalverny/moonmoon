@@ -23,6 +23,19 @@ $header_extra = <<<"HTML"
 
 HTML;
 
+$cacheSize = 0;
+foreach (glob($PlanetConfig->getCacheDir() . '/*') as $file) {
+    $filesize = filesize($file);
+    $cacheSize += $filesize;
+    $cacheContents .= sprintf(
+        '<tr><td>%s</td><td>%s</td><td>%s</td></tr>',
+        humanFilesize($filesize),
+        gmdate('Y-m-d H:i:s', filemtime($file)),
+        $file
+    );
+}
+$strCacheSize = humanFilesize($cacheSize);
+
 $repo_url = 'https://github.com/moonmoon/moonmoon';
 $releases_url = "$repo_url/releases";
 $link_url = "<a href='$releases_url'>$releases_url</a>";
@@ -35,6 +48,19 @@ $page_content = <<<"FRAGMENT"
                 <h3>{$l10n->getString('Clear cache')}</h3>
                 <form action="purgecache.php" method="post" id="frmPurge">
                     <input type="hidden" value="{$csrf->generate('frmPurge')}" name="_csrf">
+                    <details>
+                        <summary>Total cache size is {$strCacheSize}.</summary>
+                        <table border="1">
+                        <thead><tr>
+                            <th>Date Created</th>
+                            <th>Size</th>
+                            <th>File</th>
+                        <tr></thead>
+                        <tbody>
+                        {$cacheContents}
+                        </tbody>
+                        </table>
+                    </details>
                     <p><label>{$l10n->getString('Clear cache:')}</label><input type="submit" class="submit delete" name="purge" id="purge" value="{$l10n->getString('Clear')}" /></p>
                     <p class="help">{$l10n->getString('Clearing the cache will make moonmoon reload all feeds.')}</p>
                 </form>

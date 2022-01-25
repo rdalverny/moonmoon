@@ -35,7 +35,10 @@ class PlanetFeedTest extends TestCase
             '<div>Blabla.</div>',
             "<div>Blabla.  Ho. Ho. Ho.</div>",
             '<div>Image relative: <img src="https://blog.example.com/data/images/jjg.jpg"></div>',
-            '<div>Audio relatif: <audio src="https://blog.example.com/data/documents/jjg.mp3" type="audio/mp3" controls="controls" preload="none"></audio></div>',
+
+            // FIXME: those two need a fix like https://github.com/simplepie/simplepie/pull/716 to work:
+            //
+            //'<div>Audio relatif: <audio src="https://blog.example.com/data/documents/jjg.mp3" type="audio/mp3" controls="controls" preload="none"></audio></div>',
             //'<div>Video relative: <video preload="none"><source src="https://blog.example.com/data/documents/jjg.mpeg"></source></video></div>'
         ];
         foreach ($expectedContents as $ix => $value) {

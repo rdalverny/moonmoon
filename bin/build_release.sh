@@ -12,7 +12,7 @@ cd moonmoon
 composer install --no-suggest --prefer-dist --no-dev
 git describe --abbrev=0 --tags > VERSION
 find . -name .DS_Store -exec rm {} \;
-rm -rf .git .github .travis.yml .gitignore .gitmodules docs/.git/ Makefile phpcs.xml phpunit.xml
+rm -rf .git .github .gitignore .gitmodules docs/.git/ Makefile phpcs.xml phpunit.xml
 mkdir cache
 cd ..
 zip -r "moonmoon-$(cat moonmoon/VERSION).zip" .

@@ -56,7 +56,7 @@ function admin_path($file = '') : string
  * @param  string $site Append this site as a sub-directory before the file
  * @return string
  */
-function config_path($file = '', $site = '') : string
+function config_path(string $file = '', string $site = '') : string
 {
     $path = __DIR__ . '/../custom/config';
     if (!empty($site)) {
@@ -68,9 +68,16 @@ function config_path($file = '', $site = '') : string
     return $path;
 }
 
-function cache_path($site = '') : string
+function cache_path(string $file, string $site = '') : string
 {
-    return __DIR__ . '/../cache';
+    $path = __DIR__ . '/../cache';
+    if (!empty($site)) {
+        $path .= '/' . $site;
+    }
+    if (!empty($file)) {
+        $path .= '/' . $file;
+    }
+    return $path;
 }
 
 /**
@@ -108,4 +115,30 @@ function removeCustomFiles() : void
             unlink($path);
         }
     }
+}
+
+/**
+ * If request URI has more than one path component, return it,
+ * as it "may" be a site prefix (in case of a multisite setup).
+ */
+function getMultiSitePrefix(string $uri) : string
+{
+    error_log($uri);
+    $items = explode('/', $uri);
+    if (count($items) > 2) {
+        return $items[1];
+    }
+
+    return '';
+}
+
+// From https://gist.github.com/gladx/62fa307eb65586b6dbaaad75273c653d
+function humanFilesize(int $bytes, int $decimals = 2) : string
+{
+    if ($bytes < 1024) {
+        return $bytes . ' B';
+    }
+
+    $factor = floor(log($bytes, 1024));
+    return sprintf("%.{$decimals}f ", $bytes / pow(1024, $factor)) . ['B', 'KB', 'MB', 'GB', 'TB', 'PB'][$factor];
 }

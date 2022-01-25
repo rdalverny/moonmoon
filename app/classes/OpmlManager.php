@@ -81,8 +81,9 @@ XML;
     /**
      * @param Opml   $opml
      * @param string $file
+     * @return int|false
      */
-    public static function save(Opml $opml, string $file) : int|bool
+    public static function save(Opml $opml, string $file)
     {
         return file_put_contents($file, self::format($opml));
     }

@@ -26,16 +26,10 @@ if ($PlanetConfig->isInstalled()) {
         'locale' => $_POST['locale'],
     ]);
 
-    $CreatePlanetConfig = new PlanetConfig($config);
-    $save['config'] = file_put_contents(config_path('config.yml'), $CreatePlanetConfig->toYaml());
-
-    OpmlManager::save(new Opml(), config_path('people.opml'));
-
-    //Save password
-    $save['password'] = file_put_contents(
-        config_path('pwd.inc.php'),
-        sprintf('<?php $login="admin"; $password="%s"; ?>', hash('sha256', $_POST['password']))
-    );
+    $PlanetConfig->setConfig($config);
+    $save['config'] = (int) $PlanetConfig->saveConfig();
+    $PlanetConfig->saveOpml(new Opml());
+    $save['password'] = (int) $PlanetConfig->saveAdminPassword(hash('sha256', $_POST['password']));
 
     if (0 != ($save['config'] + $save['password'])) {
         $status = 'installed';
@@ -72,11 +66,24 @@ if ($PlanetConfig->isInstalled()) {
 
     // Writable file requirements
     $tests = array(
-        config_path('config.yml'),
-        config_path('people.opml'),
-        config_path('pwd.inc.php'),
-        cache_path('test_cache'),
+        config_path('config.yml', $sitePrefix),
+        config_path('people.opml', $sitePrefix),
+        config_path('pwd.inc.php', $sitePrefix),
+        cache_path('test_cache', $sitePrefix),
     );
+
+    $test_dirs = [
+        config_path($sitePrefix),
+        cache_path($sitePrefix)
+    ];
+
+    foreach ($test_dirs as $dir) {
+        if (!is_dir($dir)) {
+            if (!mkdir($dir, 0777, true)) {
+                $strInstall .= installStatus("Could not create directory <code>{$dir}</code>", 'FAIL', false);
+            }
+        }
+    }
 
     // We now test that all required files and directories are writable.
     foreach ($tests as $filename) {

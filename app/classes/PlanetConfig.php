@@ -11,6 +11,7 @@ class PlanetConfig
 
     private ?string $opmlFile = null;
     private ?string $cacheDir = null;
+    private ?string $authInc = null;
 
     /** @var array<string, mixed> */
     public static $defaultConfig = [
@@ -26,22 +27,25 @@ class PlanetConfig
         'checkcerts'    => true,
     ];
 
+    private string $sitePrefix = '';
+
     /**
      * PlanetConfig constructor.
      * @param array<string, mixed> $userConfig
      * @param bool  $useDefaultConfig
      */
-    public function __construct($userConfig = [], $useDefaultConfig = true)
+    public function __construct($userConfig = [], $useDefaultConfig = true, string $sitePrefix = '')
     {
-        $default = $useDefaultConfig ? self::$defaultConfig : array();
+        $default = $useDefaultConfig ? self::$defaultConfig : [];
         $this->conf = $this->merge($default, $userConfig);
+        $this->sitePrefix = $sitePrefix;
     }
 
     /**
      */
-    public static function load(string $dir) : PlanetConfig
+    public static function load(string $sitePrefix = '') : PlanetConfig
     {
-        $config = new PlanetConfig;
+        $config = new PlanetConfig([], true, $sitePrefix);
 
         if (!$config->isInstalled()) {
             // pre10 versions won't require $sitePrefix
@@ -55,20 +59,46 @@ class PlanetConfig
             }
         }
 
-        $configFile = realpath(config_path('config.yml'));
+        $configFile = realpath(config_path('config.yml', $sitePrefix));
         $conf = Spyc::YAMLLoad($configFile);
 
         // this is a check to upgrade older config file without l10n
         if (!isset($conf['locale'])) {
-            $resetPlanetConfig = new PlanetConfig($conf);
+            $resetPlanetConfig = new PlanetConfig($conf, true, $sitePrefix);
             file_put_contents($configFile, $resetPlanetConfig->toYaml());
             $conf = Spyc::YAMLLoad($configFile);
             return $resetPlanetConfig;
         }
 
-        $config = new PlanetConfig($conf);
+        $config = new PlanetConfig($conf, true, $sitePrefix);
 
         return $config;
+    }
+
+    /**
+     */
+    public function saveConfig() : int
+    {
+        return file_put_contents(
+            config_path('config.yml', $this->sitePrefix),
+            $this->toYaml()
+        );
+    }
+
+    public function saveAdminPassword(string $hash) : int
+    {
+        return file_put_contents(
+            config_path('pwd.inc.php', $this->sitePrefix),
+            sprintf('<?php $login="admin"; $password="%s"; ?>', $hash)
+        );
+    }
+
+    public function saveOpml(Opml $opml) : int
+    {
+        return file_put_contents(
+            config_path('people.opml', $this->sitePrefix),
+            OpmlManager::format($opml)
+        );
     }
 
     /**
@@ -78,8 +108,8 @@ class PlanetConfig
      */
     public function isInstalled() : bool
     {
-        return file_exists(config_path('config.yml')) &&
-            file_exists(config_path('people.opml'));
+        return file_exists(config_path('config.yml', $this->sitePrefix)) &&
+            file_exists(config_path('people.opml', $this->sitePrefix));
     }
 
     /**
@@ -125,6 +155,13 @@ class PlanetConfig
 
         return true;
     }
+    /**
+     * @param array<string,mixed> $userConfig
+     */
+    public function setConfig($userConfig = []) : void
+    {
+        $this->conf = $this->merge(self::$defaultConfig, $userConfig);
+    }
 
     /**
      * Merge the configuration of the user in the default one.
@@ -162,6 +199,9 @@ class PlanetConfig
     {
         if (is_null($this->cacheDir)) {
             $this->cacheDir = realpath(__DIR__ . '/../../'.$this->conf['cachedir']);
+            if (!empty($this->sitePrefix)) {
+                $this->cacheDir .= '/' . $this->sitePrefix;
+            }
         }
         return $this->cacheDir;
     }
@@ -169,9 +209,17 @@ class PlanetConfig
     public function getOpmlFile() : string
     {
         if (is_null($this->opmlFile)) {
-            $this->opmlFile = realpath(config_path('people.opml'));
+            $this->opmlFile = realpath(config_path('people.opml', $this->sitePrefix));
         }
         return $this->opmlFile;
+    }
+
+    public function getAuthInc() : string
+    {
+        if (is_null($this->authInc)) {
+            $this->authInc = realpath(config_path('pwd.inc.php', $this->sitePrefix));
+        }
+        return $this->authInc;
     }
 
     public function getOutputTimeout() : int
@@ -225,6 +273,11 @@ class PlanetConfig
         return self::$defaultConfig;
     }
 
+    public function getSitePrefix() : string
+    {
+        return $this->sitePrefix;
+    }
+
     /**
      * Normalize the name of a configuration key.
      *
@@ -271,8 +324,10 @@ class PlanetConfig
 
     /**
      * Generic configuration setter.
+     * @param string $key
+     * @param mixed $value
      */
-    public function __set(string $key, mixed $value) : void
+    public function __set(string $key, $value) : void
     {
         $key = $this->normalizeKeyName($key);
 
