@@ -10,7 +10,7 @@ $moon_version = trim(file_get_contents(__DIR__.'/../VERSION'));
 
 session_start();
 
-$PlanetConfig = PlanetConfig::load();
+$PlanetConfig = PlanetConfig::load($sitePrefix);
 $Planet = new Planet($PlanetConfig);
 
 if ($PlanetConfig->getDebug()) {
