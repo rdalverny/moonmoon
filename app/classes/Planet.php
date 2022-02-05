@@ -133,7 +133,7 @@ class Planet
      * @param  string  $file File to load the OPML from.
      * @return integer Number of people loaded.
      */
-    public function loadOpml(string $file)
+    public function loadOpml(string $file) : int
     {
         if (!is_file($file)) {
             $this->errors[] = new PlanetError(3, $file.' is missing.');
@@ -159,10 +159,11 @@ class Planet
      * Load feeds
      * @return void
      */
-    public function loadFeeds()
+    private function loadFeeds()
     {
         foreach ($this->people as $feed) {
-            //Is down it's filled by cron.php, $Planet->download(1.0) proccess
+            // isDown is set by download() below;
+            // if set, it requires a manual admin action to be unset.
             if (!$feed->isDown) {
                 $feed->set_timeout(-1);
                 $feed->init();
@@ -181,7 +182,7 @@ class Planet
     public function download($max_load = 0.1)
     {
         $max_load_feeds = ceil(count($this->people) * $max_load);
-        $opml = OpmlManager::load($this->config->getOpmlFile());
+        $failedFeeds = [];
 
         foreach ($this->people as $feed) {
             //Avoid mass loading with variable cache duration
@@ -203,25 +204,17 @@ class Planet
             }
 
             $feed->init();
-            $isDown = '';
 
-            // http://simplepie.org/wiki/reference/simplepie/merge_items ?
             if (($feed->data) && ($feed->get_item_quantity() > 0)) {
                 $items = $feed->get_items();
                 $this->items = array_merge($this->items, $items);
             } else {
                 $this->errors[] = new PlanetError(1, 'No items or down: ' . $feed->getFeed());
-                $isDown = '1';
-            }
-
-            foreach ($opml->entries as $key => $entrie) {
-                if ($feed->getFeed() === $entrie['feed']) {
-                    $opml->entries[$key]['isDown'] = $isDown;
-                }
+                $failedFeeds[] = $feed->getFeed();
             }
         }
 
-        OpmlManager::save($opml, $this->config->getOpmlFile());
+        OpmlManager::setFailedFeeds($failedFeeds, $this->config->getOpmlFile());
     }
 
     /**

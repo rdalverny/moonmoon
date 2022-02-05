@@ -10,12 +10,7 @@ require_once __DIR__ . '/inc/auth.inc.php';
 
 //Instantiate app
 $Planet = new Planet($PlanetConfig);
-
-//Load
-if (0 < $Planet->loadOpml($PlanetConfig->getOpmlFile())) {
-    $Planet->loadFeeds();
-    $items = $Planet->getItems();
-}
+$items = $Planet->getFeedsItems();
 
 $everyone     = $Planet->getPeople();
 $count_feeds  = count($everyone);

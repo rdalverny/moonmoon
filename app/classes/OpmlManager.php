@@ -29,11 +29,25 @@ class OpmlManager
      */
     public static function save(Opml $opml, string $file)
     {
-        return file_put_contents($file, $opml->formatString());
+        return file_put_contents($file, $opml->formatString(), LOCK_EX);
     }
 
     public static function backup(string $file) : void
     {
         copy($file, $file.'.bak');
+    }
+
+    public static function setFailedFeeds(array $failedFeeds, string $file) : void
+    {
+        if (empty($failedFeeds)) {
+            return;
+        }
+        $opml = OpmlManager::load($file);
+        foreach ($opml->entries as $key => $entrie) {
+            if (in_array($feed->getFeed(), $failedFeeds)) {
+                $opml->entries[$key]['isDown'] = '1';
+            }
+        }
+        OpmlManager::save($opml, $file);
     }
 }
