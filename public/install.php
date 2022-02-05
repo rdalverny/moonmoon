@@ -28,7 +28,7 @@ if ($PlanetConfig->isInstalled()) {
 
     $PlanetConfig->setConfig($config);
     $save['config'] = (int) $PlanetConfig->saveConfig();
-    $PlanetConfig->saveOpml(new Opml());
+    OpmlManager::save(new Opml(), $PlanetConfig->getOpmlFile());
     $save['password'] = (int) $PlanetConfig->saveAdminPassword(hash('sha256', $_POST['password']));
 
     if (0 != ($save['config'] + $save['password'])) {

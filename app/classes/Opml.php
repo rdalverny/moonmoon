@@ -107,4 +107,59 @@ class Opml
     {
         return $this->entries;
     }
+
+    /**
+     *
+     * @param  boolean $freezeDateModified update (or not) the dateModified entry - used for tests only
+     * @return string  OPML valid string
+     */
+    public function formatString(bool $freezeDateModified = false) : string
+    {
+        $owner = '';
+        if ($this->ownerName != '') {
+            $owner .= '<ownerName>'.htmlspecialchars($this->ownerName).'</ownerName>'."\n";
+        }
+        if ($this->ownerEmail != '') {
+            $owner .= '<ownerEmail>'.htmlspecialchars($this->ownerEmail).'</ownerEmail>'."\n";
+        }
+        if ($this->ownerId != '') {
+            $owner .= '<ownerId>'.htmlspecialchars($this->ownerId).'</ownerId>'."\n";
+        }
+
+        $entries = '';
+        foreach ($this->entries as $person) {
+            $entries .= sprintf(
+                "\t" . '<outline text="%s" htmlUrl="%s" xmlUrl="%s" isDown="%s" />',
+                htmlspecialchars($person['name'], ENT_QUOTES),
+                htmlspecialchars($person['website'], ENT_QUOTES),
+                htmlspecialchars($person['feed'], ENT_QUOTES),
+                htmlspecialchars($person['isDown'] ?? '', ENT_QUOTES)
+            ) . "\n";
+        }
+
+        $template = <<<XML
+<?xml version="1.0"?>
+<opml version="2.0">
+<head>
+    <title>%s</title>
+    <dateCreated>%s</dateCreated>
+    <dateModified>%s</dateModified>
+    %s
+    <docs>http://opml.org/spec2.opml</docs>
+</head>
+<body>
+%s
+</body>
+</opml>
+XML;
+
+        return sprintf(
+            $template,
+            htmlspecialchars($this->getTitle()),
+            $this->dateCreated,
+            $freezeDateModified ? $this->dateModified : date_format(date_create('now', new DateTimeZone('UTC')), DateTimeInterface::ATOM),
+            $owner,
+            $entries
+        );
+    }
 }

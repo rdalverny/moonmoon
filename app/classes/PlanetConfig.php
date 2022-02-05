@@ -93,14 +93,6 @@ class PlanetConfig
         );
     }
 
-    public function saveOpml(Opml $opml) : int
-    {
-        return file_put_contents(
-            config_path('people.opml', $this->sitePrefix),
-            OpmlManager::format($opml)
-        );
-    }
-
     /**
      * Is moonmoon installed?
      *

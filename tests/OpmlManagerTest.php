@@ -48,6 +48,6 @@ class OpmlTest extends TestCase
     {
         $file = 'tests/opml/test-valid.opml';
         $opml = OpmlManager::load($file);
-        $this->assertXmlStringEqualsXmlFile($file, OpmlManager::format($opml, true));
+        $this->assertXmlStringEqualsXmlFile($file, $opml->formatString(true));
     }
 }
