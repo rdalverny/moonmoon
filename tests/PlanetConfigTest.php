@@ -77,4 +77,34 @@ class PlanetConfigTest extends TestCase
         $default = new PlanetConfig();
         $this->assertEquals($default, $conf);
     }
+
+    public function testGetCacheDir()
+    {
+        $conf = PlanetConfig::load();
+        $this->assertEquals(dirname(__DIR__) . '/cache', $conf->getCacheDir());
+    }
+
+    public function staticConfigPathProvider()
+    {
+        $dir = dirname(__DIR__);
+        return [
+            'no params'        => [ $dir . '/custom/config',          '',         ''       ],
+            'file name only'   => [ $dir . '/custom/config/somefile', 'somefile', ''       ],
+            'site prefix only' => [ $dir . '/custom/config/prefix',   '',         'prefix' ],
+        ];
+    }
+
+    /**
+     * @dataProvider staticConfigPathProvider
+     */
+    public function testStaticConfigPath(string $expected, string $file, string $site)
+    {
+        if (!file_exists($expected)) {
+            touch($expected);
+        }
+        $this->assertEquals($expected, realpath(PlanetConfig::config_path($file, $site)));
+        if (is_file($expected)) {
+            unlink($expected);
+        }
+    }
 }

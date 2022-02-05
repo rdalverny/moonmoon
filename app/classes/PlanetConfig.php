@@ -202,7 +202,7 @@ class PlanetConfig
 
     public function getCacheRootDir() : string
     {
-        return realpath(__DIR__ . '/../../'.$this->conf['cachedir']);
+        return realpath(__DIR__ . '/../../' . $this->conf['cachedir']);
     }
 
     public function getCacheDir() : string

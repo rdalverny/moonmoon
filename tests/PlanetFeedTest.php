@@ -26,7 +26,7 @@ class PlanetFeedTest extends TestCase
     public function testItemsContent()
     {
         if (!$this->feed->init()) {
-            $this->fail(sprintf('Failed to init feed: %s', $this->feed->error));
+            $this->fail(sprintf('Failed to init feed (%s): %s', $this->feed->feed_url, $this->feed->error));
         }
         $items = $this->feed->get_items();
         $this->assertEquals(5, count($items));

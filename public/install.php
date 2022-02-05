@@ -5,7 +5,7 @@ require_once '../app/app.php';
 function installStatus(string $str, string $msg, bool $result) : string
 {
     $class = ($result) ? 'ok' : 'fail';
-    return '<tr><td>' . $str . '</td><td class="' . $class . '">' . $msg . '</td></tr>';
+    return '<tr><td>' . $str . '</td><td class="' . $class . '">' . $msg . '</td></tr>' . "\n";
 }
 
 // If the config file exists and the auth variables are set, moonmoon is already installed
@@ -41,7 +41,7 @@ if ($PlanetConfig->isInstalled()) {
         $strRecommendation = '';
     } else {
         $strInstall = installStatus('Server is running at least PHP 7.2', 'FAIL', false);
-        $strRecommendation = '<li>Check your server documentation to activate at least PHP 7.2</li>';
+        $strRecommendation = '<li>Check your server documentation to activate at least PHP 7.2</li>' . "\n";
     }
 
     $required_extensions = [
@@ -60,7 +60,25 @@ if ($PlanetConfig->isInstalled()) {
             $strInstall .= installStatus("PHP extension <code>$ext</code> is present", 'OK', true);
         } else {
             $strInstall .= installStatus("PHP extension <code>$ext</code> is present", 'FAIL', false);
-            $strRecommendation .= "<li>Install PHP extension <code>$ext</code> on your server</li>";
+            $strRecommendation .= "<li>Install PHP extension <code>$ext</code> on your server</li>\n";
+        }
+    }
+
+    $test_dirs = [
+        PlanetConfig::config_path($sitePrefix),
+        $PlanetConfig->getCacheDir()
+    ];
+
+    foreach ($test_dirs as $dir) {
+        if (!is_dir($dir)) {
+            if (!mkdir($dir, 0777, true)) {
+                $strInstall .= installStatus("Could not create directory <code>$dir</code>\n", 'FAIL', false);
+                $strRecommandation .= "<li>Make sure <code>$dir</code> can be created\n";
+            } else {
+                $strInstall .= installStatus("Could create directory <code>$dir</code>\n", 'OK', true);
+            }
+        } else {
+            $strInstall .= installStatus("Directory exists <code>$dir</code>\n", 'OK', true);
         }
     }
 
@@ -72,19 +90,6 @@ if ($PlanetConfig->isInstalled()) {
         $PlanetConfig->getCacheDir() . '/test_cache'
     );
 
-    $test_dirs = [
-        PlanetConfig::config_path($sitePrefix),
-        $PlanetConfig->getCacheDir()
-    ];
-
-    foreach ($test_dirs as $dir) {
-        if (!is_dir($dir)) {
-            if (!mkdir($dir, 0777, true)) {
-                $strInstall .= installStatus("Could not create directory <code>{$dir}</code>", 'FAIL', false);
-            }
-        }
-    }
-
     // We now test that all required files and directories are writable.
     foreach ($tests as $filename) {
         if (touch($filename)) {
@@ -94,7 +99,7 @@ if ($PlanetConfig->isInstalled()) {
             }
         } else {
             $strInstall .= installStatus("<code>$filename</code> is writable", 'FAIL', false);
-            $strRecommendation .= "<li>Make <code>$filename</code> writable with CHMOD</li>";
+            $strRecommendation .= "<li>Make <code>$filename</code> writable with CHMOD</li>\n";
         }
     }
 
