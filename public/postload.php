@@ -6,24 +6,20 @@ if (!$PlanetConfig->isInstalled()) {
     die();
 }
 
-$xml = new SimpleXMLElement(file_get_contents($PlanetConfig->getOpmlFile()));
-
-foreach ($xml->xpath('/opml/body/outline[@xmlUrl]') as $element) {
-    if ($element->attributes()->xmlUrl == $_GET['url']) {
-        $person = new PlanetFeed(
+$opml = OpmlManager::load($PlanetConfig->getOpmlFile());
+foreach ($opml->entries as $source) {
+    if ($source['feed'] == $_GET['url']) {
+        $feed = new PlanetFeed(
             '',
-            $_GET['url'],
+            $source['feed'],
             '',
             false,
             $PlanetConfig->getCacheDir()
         );
-        $Planet->addPerson($person);
-
-        $Planet->download(1);
+        $Planet->addPerson($feed);
+        $Planet->download(1.0);
         header('Content-type: image/png');
         readfile(__DIR__ . '/custom/img/feed.png');
         die();
     }
 }
-
-echo 'Updating this URL is not allowed.';

@@ -165,7 +165,6 @@ class Planet
             // isDown is set by download() below;
             // if set, it requires a manual admin action to be unset.
             if (!$feed->isDown) {
-                $feed->set_timeout(-1);
                 $feed->init();
                 $this->items = array_merge($this->items, $feed->get_items());
             }
