@@ -11,13 +11,11 @@ if (isset($_POST['password'])) {
 
     $hash_pwd = hash('sha256', $_POST['password']);
 
-    // check if old moonmoon was installed and convert stored password
-    // from md5 to current hash function
-    $md5_pwd  = md5($_POST['password']);
-    $passfile = config_path('pwd.inc.php');
+    // an old moonmoon may have been installed,
+    // in which it would still use md5 to hash password
+    $passfile = $PlanetConfig->getAuthInc();
     include($passfile);
-
-    if ($md5_pwd == $password) {
+    if (md5($_POST['password'] == $password) {
         error_log("Migrating password from md5 to sha256");
         file_put_contents($passfile, sprintf('<?php $login="admin"; $password="%s"; ?>', $hash_pwd));
     }
