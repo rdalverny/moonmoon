@@ -116,6 +116,15 @@ class Cache
         return false;
     }
 
+    public static function pruneAll() : void
+    {
+        foreach (glob(self::$store . DIRECTORY_SEPARATOR . '*') as $filename) {
+            if (is_file($filename)) {
+                unlink($filename);
+            }
+        }
+    }
+
     public static function prune(string $group, ?string $id = null) : void
     {
         if (is_null($id)) {

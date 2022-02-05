@@ -8,20 +8,9 @@ if (!$PlanetConfig->isInstalled()) {
 }
 
 if (isset($_POST['purge'])) {
-    $dir = __DIR__.'/../../cache/';
 
-    $dh = opendir($dir);
-
-    while ($filename = readdir($dh)) {
-        if ($filename == '.' or $filename == '..') {
-            continue;
-        }
-
-        $file = $dir . DIRECTORY_SEPARATOR . $filename;
-        if (is_file($file) && filemtime($file) < time()) {
-            unlink($file);
-        }
-    }
+    Cache::setStore($PlanetConfig->getCacheDir() . '/');
+    Cache::pruneAll();
 }
 
 header('Location: administration.php');
