@@ -9,37 +9,77 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Added: basic support for multiple instances hosting (849221e)
-- Added: show cache size usage in admin page (3075019)
+
+## [10.0.0-rc.2] - 2022-02-05
+
+### Added
+
+- Basic support for multiple instances hosting
+  ([849221e](https://github.com/rdalverny/moonmoon/commit/849221e))
+- Cache size usage now is detailed in admin page
+  ([3075019](https://github.com/rdalverny/moonmoon/commit/3075019))
+
+### Bugs
+
+- Fixed test workflow
+- Fixed cache pruning
+
+### Enhancements
+
+- Clarified responsibilities between `OpmlManager`, `Opml`, `PlanetConfig`
+- Clarified how `Planet::download()` and postload.php behave
+- Rearranged time/author/source info under post title,
+  with better localized date format
 
 
 ## [10.0.0-rc] - 2022-01-25
 
-- Removed: support for PHP versions older than 7.2
-- Added: test workflow (.github/workflow/php.yml)
-- Added: atom feed is now cached too
-- Added: support for PHP from 7.2 to 8.1
-- Added: this changelog
-- Added: PHP version support policy (see README.md)
-- Added: Indonesian translation (from @arachvy, see moonmoon/moonmoon#107)
-- Added: moonmoon version info in admin and page footer (fixes moonmoon/moonmoon#115)
-- Added: a full OPML file may now be imported into the admin area (fixes moonmoon/moonmoon#67)
-- Added: Makefile to help with common dev actions (test, format, lint, run, etc.)
-- Fixed: German language id in install page (fixes moonmoon/moonmoon#116)
-- Fixed: Cache include path  for index/atom feed
-- Fixed: atom feed item `<guid>` now uses a unique id, not permalink (fixes moonmoon/moonmoon#58)
-- Fixed: atom feed dates are now in UTC, and dateModified is now updated
-- Changed: tests and coverage refactoring (`make test`)
-- Changed: PSR2 enforcement (`make fmt`), some type hints added
-- Changed: PlanetConfig refactored to handle more explicitly all config values
-- Changed: all public scripts/elements are now in a dedicated `public/` folder
-- Changed: path to public OPML is now `/opml/` and not `/custom/people.opml` (broken link)
-- Changed: path to Atom feed is now `/feed/` (`/atom.php` redirects to it)
-- Changed: all config now lives in `custom/config` directory;
+### Removed
+
+- Support for PHP versions older than 7.2
+
+### Added
+
+- Test workflow (.github/workflow/php.yml)
+- Atom feed is now cached too
+- Support for PHP from 7.2 to 8.1
+- This changelog
+- PHP version support policy (see [README.md](README.md))
+- Indonesian translation (from @arachvy,
+  see [#107](https://github.com/moonmoon/moonmoon/issues/107))
+- moonmoon version info is availabe in admin and page footer
+  (fixes [#115](https://github.com/moonmoon/moonmoon/issues/115))
+- A full OPML file may now be imported into the admin area
+  (fixes [#67](https://github.com/moonmoon/moonmoon/issues/67))
+- A Makefile to help with common dev actions (test, format, lint, run, etc.)
+
+### Bugs
+
+- German language id in install page
+  (fixes [#116](https://github.com/moonmoon/moonmoon/issues/116))
+- Cache include path for index/atom feed
+- Atom feed item `<guid>` now uses a unique id, not permalink
+  (fixes [#58](https://github.com/moonmoon/moonmoon/issues/58))
+- Atom feed dates are now in UTC, and dateModified is now updated
+
+### Enhancements
+
+- Tests and coverage refactoring (`make test`)
+- PSR2 enforcement (`make fmt`), some type hints added
+- PlanetConfig refactored to handle more explicitly all config values
+- All public scripts/elements are now in a dedicated `public/` folder
+- Path to public OPML is now `/opml/` and not `/custom/people.opml` (broken link)
+- Path to Atom feed is now `/feed/` (`/atom.php` redirects to it)
+- All config now lives in `custom/config` directory;
   with migration support from old config location to new one;
-- Changed: updated all lang files
-- Security: Javascript content is removed (fixes moonmoon/moonmoon#111)
-- Security: a stronger hash function is used for password storage (from/fixes moonmoon/moonmoon#10)
+- Updated all lang files
+
+### Security
+
+- Javascript content is removed
+  (fixes [#111](https://github.com/moonmoon/moonmoon/issues/111))
+- A stronger hash function is used for password storage
+  (from/fixes [#10](https://github.com/moonmoon/moonmoon/issues/10))
 
 
 ## [9.x] branch - 2022-01-25
@@ -50,9 +90,12 @@ Dedicated branch for 9.x support.
 
 ### Bugs
 
-* Reverted 3510092, which introduced at least two serious bugs (1e7eb27).
+* Reverted [3510092](https://github.com/moonmoon/moonmoon/commit/3510092),
+  which introduced at least two serious bugs
+  ([1e7eb27](https://github.com/moonmoon/moonmoon/commit/1e7eb27)).
 * Added the folder custom/ to the release archive.
-* Fixed autoloading issues with PHP 5.6.30 (98097b5).
+* Fixed autoloading issues with PHP 5.6.30
+  ([98097b5](https://github.com/moonmoon/moonmoon/commit/98097b5)).
 
 
 ## [9.0.0-rc.2] - 2018-01-03
@@ -87,7 +130,8 @@ The RC will be available for a few weeks. If not bug is reported, it will become
 
 ---
 
-[Unreleased]: https://github.com/rdalverny/moonmoon/compare/10.0.0-rc...HEAD
+[Unreleased]: https://github.com/rdalverny/moonmoon/compare/10.0.0-rc.2...10-dev
+[10.0.0-rc.2]: https://github.com/rdalverny/moonmoon/compare/10.0.0-rc...10.0.0-rc.2
 [10.0.0-rc]: https://github.com/rdalverny/moonmoon/releases/tag/10.0.0-rc
 [9.x]: https://github.com/rdalverny/moonmoon/tree/9.x
 [9.0.0-rc.3]: https://github.com/moonmoon/moonmoon/compare/9.0.0-rc.2...9.0.0-rc.3

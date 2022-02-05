@@ -4,7 +4,7 @@
     "homepage": "http://moonmoon.org/",
     "type": "project",
     "license": "BSD-3-Clause",
-    "version": "10.0.0-rc",
+    "version": "10.0.0-rc.2",
     "keywords": ["rss", "atom", "syndication", "planet", "blog"],
     "authors": [
         {
