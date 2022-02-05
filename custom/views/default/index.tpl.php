@@ -3,6 +3,21 @@ $pageTitle = $PlanetConfig->getName();
 $limit = $PlanetConfig->getMaxDisplay();
 $count = 0;
 
+$fmt_full = datefmt_create(
+    $PlanetConfig->getLocale(),
+    IntlDateFormatter::FULL,
+    IntlDateFormatter::LONG,
+    'UTC',
+    IntlDateFormatter::GREGORIAN
+);
+$fmt_short = datefmt_create(
+    $PlanetConfig->getLocale(),
+    IntlDateFormatter::RELATIVE_LONG,
+    IntlDateFormatter::NONE,
+    'UTC',
+    IntlDateFormatter::GREGORIAN
+);
+
 header('Content-type: text/html; charset=UTF-8');
 ?><!DOCTYPE html>
 <html lang="<?=$PlanetConfig->getLocale()?>" class="no-js">
@@ -32,18 +47,19 @@ header('Content-type: text/html; charset=UTF-8');
                             <a href="<?php echo $item->get_permalink(); ?>" title="Go to original place"><?php echo $item->get_title(); ?></a>
                         </h2>
                         <p class="article-info">
-                            <?php echo strip_tags(($item->get_author()? $item->get_author()->get_name() : 'Anonymous')); ?>,
                             <?php
-                            $ago = time() - $item->get_date('U');
-                            //echo '<span title="'.Duration::toString($ago).' ago" class="date">'.date('d/m/Y', $item->get_date('U')).'</span>';
-                            echo '<span id="post'.$item->get_date('U').'" class="date">'.$item->get_date('d/m/Y').'</span>';
-                            ?>
-
-                            |
-
-                            <?=_g('Source:')?> <?php
                             $feed = $item->get_feed();
-                            echo '<a href="'.$feed->getWebsite().'" class="source">'.$feed->getName().'</a>';
+                            $infos = implode(', ', array_filter([
+                                sprintf(
+                                    '<datetime id="post%s" class="date" title="%s">%s</datetime>',
+                                    $item->get_date('U'),
+                                    datefmt_format($fmt_full, $item->get_date('U')),
+                                    datefmt_format($fmt_short, $item->get_date('U')),
+                                ),
+                                $item->get_authors() ? strip_tags($item->get_author()->get_name()) : null,
+                                sprintf('<a href="%s" class="source">%s</a>', $feed->getWebsite(), $feed->getName())
+                            ]));
+                            echo $infos;
                             ?>
                         </p>
                         <div class="article-content">
