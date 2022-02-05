@@ -15,7 +15,7 @@ if (isset($_POST['password'])) {
     // in which it would still use md5 to hash password
     $passfile = $PlanetConfig->getAuthInc();
     include($passfile);
-    if (md5($_POST['password'] == $password) {
+    if (md5($_POST['password'] == $password)) {
         error_log("Migrating password from md5 to sha256");
         file_put_contents($passfile, sprintf('<?php $login="admin"; $password="%s"; ?>', $hash_pwd));
     }
