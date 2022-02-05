@@ -55,6 +55,7 @@ function admin_path($file = '') : string
  * @param  string $file Append this filename to the returned path
  * @param  string $site Append this site as a sub-directory before the file
  * @return string
+ * @deprecated Use PlanetConfig::config_path() instead
  */
 function config_path(string $file = '', string $site = '') : string
 {
@@ -68,6 +69,9 @@ function config_path(string $file = '', string $site = '') : string
     return $path;
 }
 
+/**
+ * @deprecated Use $PlanetConfig->getCacheDir() instead
+ */
 function cache_path(string $file, string $site = '') : string
 {
     $path = __DIR__ . '/../cache';
@@ -98,9 +102,10 @@ function _g($str, $comment = '')
 function removeCustomFiles() : void
 {
     $toRemove = [
-        config_path('config.yml'),
-        config_path('people.opml'),
-        config_path('people.opml.bak'),
+        PlanetConfig::config_path('config.yml'),
+        PlanetConfig::config_path('people.opml'),
+        PlanetConfig::config_path('people.opml.bak'),
+        PlanetConfig::config_path('pwd.inc.php'),
         cache_path('cache'),
 
         // legacy location

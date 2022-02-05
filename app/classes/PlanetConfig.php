@@ -9,6 +9,7 @@ class PlanetConfig
     /** @var array<string, mixed> */
     protected $conf = [];
 
+    private ?string $configFile = null;
     private ?string $opmlFile = null;
     private ?string $cacheDir = null;
     private ?string $authInc = null;
@@ -59,7 +60,7 @@ class PlanetConfig
             }
         }
 
-        $configFile = realpath(config_path('config.yml', $sitePrefix));
+        $configFile = realpath($config->getConfigFile());
         $conf = Spyc::YAMLLoad($configFile);
 
         // this is a check to upgrade older config file without l10n
@@ -75,12 +76,24 @@ class PlanetConfig
         return $config;
     }
 
+    public static function config_path(string $file = '', string $site = '') : string
+    {
+        $path = __DIR__ . '/../../custom/config';
+        if (!empty($site)) {
+            $path .= '/' . $site;
+        }
+        if (!empty($file)) {
+            $path .= '/' . $file;
+        }
+        return $path;
+    }
+
     /**
      */
     public function saveConfig() : int
     {
         return file_put_contents(
-            config_path('config.yml', $this->sitePrefix),
+            $this->getConfigFile(),
             $this->toYaml()
         );
     }
@@ -88,7 +101,7 @@ class PlanetConfig
     public function saveAdminPassword(string $hash) : int
     {
         return file_put_contents(
-            config_path('pwd.inc.php', $this->sitePrefix),
+            $this->getAuthInc(),
             sprintf('<?php $login="admin"; $password="%s"; ?>', $hash)
         );
     }
@@ -100,8 +113,8 @@ class PlanetConfig
      */
     public function isInstalled() : bool
     {
-        return file_exists(config_path('config.yml', $this->sitePrefix)) &&
-            file_exists(config_path('people.opml', $this->sitePrefix));
+        return file_exists($this->getConfigFile()) &&
+            file_exists($this->getOpmlFile());
     }
 
     /**
@@ -122,8 +135,8 @@ class PlanetConfig
      */
     public function migratePre10Version() : bool
     {
-        if (!is_dir(config_path())) {
-            if (!mkdir(config_path(), 0777, true)) {
+        if (!is_dir(self::config_path())) {
+            if (!mkdir(self::config_path(), 0777, true)) {
                 return false;
             }
         }
@@ -135,7 +148,7 @@ class PlanetConfig
     public static function migrate_file(string $file) : bool
     {
         $source = custom_path($file);
-        $dest = config_path($file);
+        $dest = self::config_path($file);
         if (!copy($source, $source . '.bak')) {
             error_log("Failed to make a backup of ${source}");
             return false;
@@ -187,10 +200,15 @@ class PlanetConfig
         return $this->conf['refresh'];
     }
 
+    public function getCacheRootDir() : string
+    {
+        return realpath(__DIR__ . '/../../'.$this->conf['cachedir']);
+    }
+
     public function getCacheDir() : string
     {
         if (is_null($this->cacheDir)) {
-            $this->cacheDir = realpath(__DIR__ . '/../../'.$this->conf['cachedir']);
+            $this->cacheDir = $this->getCacheRootDir();
             if (!empty($this->sitePrefix)) {
                 $this->cacheDir .= '/' . $this->sitePrefix;
             }
@@ -201,15 +219,20 @@ class PlanetConfig
     public function getOpmlFile() : string
     {
         if (is_null($this->opmlFile)) {
-            $this->opmlFile = realpath(config_path('people.opml', $this->sitePrefix));
+            $this->opmlFile = self::config_path('people.opml', $this->sitePrefix);
         }
         return $this->opmlFile;
+    }
+
+    public function getConfigFile() : string
+    {
+        return self::config_path('config.yml', $this->sitePrefix);
     }
 
     public function getAuthInc() : string
     {
         if (is_null($this->authInc)) {
-            $this->authInc = realpath(config_path('pwd.inc.php', $this->sitePrefix));
+            $this->authInc = self::config_path('pwd.inc.php', $this->sitePrefix);
         }
         return $this->authInc;
     }

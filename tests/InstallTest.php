@@ -39,9 +39,9 @@ class InstallTest extends GuzzleHarness
     public function test_get_install_page_should_not_create_custom_files()
     {
         $this->client->get('/install.php');
-        $this->assertFalse(file_exists(config_path('people.opml')));
-        $this->assertFalse(file_exists(config_path('config.yml')));
-        $this->assertFalse(file_exists(config_path('pwc.inc.php')));
+        $this->assertFalse(file_exists(PlanetConfig::config_path('people.opml')));
+        $this->assertFalse(file_exists(PlanetConfig::config_path('config.yml')));
+        $this->assertFalse(file_exists(PlanetConfig::config_path('pwc.inc.php')));
     }
 
     public function test_install_button()
@@ -108,6 +108,6 @@ class InstallTest extends GuzzleHarness
         $res = self::test_install_button();
         $res = $this->client->get('/opml/');
         $this->assertEquals(200, $res->getStatusCode());
-        $this->assertXmlStringEqualsXmlFile(config_path('people.opml'), (string) $res->getBody());
+        $this->assertXmlStringEqualsXmlFile(PlanetConfig::config_path('people.opml'), (string) $res->getBody());
     }
 }

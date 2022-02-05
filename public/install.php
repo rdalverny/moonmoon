@@ -66,15 +66,15 @@ if ($PlanetConfig->isInstalled()) {
 
     // Writable file requirements
     $tests = array(
-        config_path('config.yml', $sitePrefix),
-        config_path('people.opml', $sitePrefix),
-        config_path('pwd.inc.php', $sitePrefix),
-        cache_path('test_cache', $sitePrefix),
+        $PlanetConfig->getConfigFile(),
+        $PlanetConfig->getOpmlFile(),
+        $PlanetConfig->getAuthInc(),
+        $PlanetConfig->getCacheDir() . '/test_cache'
     );
 
     $test_dirs = [
-        config_path($sitePrefix),
-        cache_path($sitePrefix)
+        PlanetConfig::config_path($sitePrefix),
+        $PlanetConfig->getCacheDir()
     ];
 
     foreach ($test_dirs as $dir) {
