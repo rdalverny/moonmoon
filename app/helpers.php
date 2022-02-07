@@ -122,6 +122,15 @@ function removeCustomFiles() : void
     }
 }
 
+ /**
+  * Redirect the user to a page.
+  */
+function redirect(string $location = '/') : void
+{
+    header(sprintf('Location: %s', $location));
+    die();
+}
+
 /**
  * If request URI has more than one path component, return it,
  * as it "may" be a site prefix (in case of a multisite setup).

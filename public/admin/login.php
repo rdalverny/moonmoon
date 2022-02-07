@@ -7,21 +7,9 @@ if (!$PlanetConfig->isInstalled()) {
 }
 
 if (isset($_POST['password'])) {
-    session_regenerate_id();
-
-    $hash_pwd = hash('sha256', $_POST['password']);
-
-    // an old moonmoon may have been installed,
-    // in which it would still use md5 to hash password
-    $passfile = $PlanetConfig->getAuthInc();
-    include($passfile);
-    if (md5($_POST['password'] == $password)) {
-        error_log("Migrating password from md5 to sha256");
-        file_put_contents($passfile, sprintf('<?php $login="admin"; $password="%s"; ?>', $hash_pwd));
-    }
-
-    setcookie('auth', $hash_pwd);
-    header('Location: index.php');
+    session_regenerate_id(true);
+    $Auth->login($_POST['password']);
+    redirect(($Auth->isAuthenticated() ? 'index.php' : 'login.php'));
 }
 
 $page_content = <<<FRAGMENT

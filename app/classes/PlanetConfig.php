@@ -9,26 +9,28 @@ class PlanetConfig
     /** @var array<string, mixed> */
     protected $conf = [];
 
-    private ?string $configFile = null;
-    private ?string $opmlFile = null;
-    private ?string $cacheDir = null;
-    private ?string $authInc = null;
+    private string $sitePrefix = '';
+
+    private ?string $authFile     = null;
+    private ?string $cacheDir     = null;
+    private ?string $cacheRootDir = null;
+    private ?string $configDir    = null;
+    private ?string $configFile   = null;
+    private ?string $opmlFile     = null;
 
     /** @var array<string, mixed> */
     public static $defaultConfig = [
-        'url'           => 'http://www.example.com/',
-        'name'          => '',
-        'locale'        => 'en',
-        'items'         => 10,
-        'refresh'       => 3600,
-        'cache'         => 1800,
-        'categories'    => '',
-        'cachedir'      => './cache',
-        'debug'         => false,
-        'checkcerts'    => true,
+        'url'        => 'http://www.example.com/',
+        'name'       => '',
+        'locale'     => 'en',
+        'items'      => 10,
+        'refresh'    => 3600,
+        'cache'      => 1800,
+        'categories' => '',
+        'cachedir'   => './cache',
+        'debug'      => false,
+        'checkcerts' => true,
     ];
-
-    private string $sitePrefix = '';
 
     /**
      * PlanetConfig constructor.
@@ -39,7 +41,15 @@ class PlanetConfig
     {
         $default = $useDefaultConfig ? self::$defaultConfig : [];
         $this->conf = $this->merge($default, $userConfig);
+
         $this->sitePrefix = $sitePrefix;
+
+        $this->configDir = __DIR__ . '/../../custom/config';
+        if (!empty($this->sitePrefix)) {
+            $this->configDir .= '/' . $this->sitePrefix;
+        }
+
+        $this->cacheRootDir = realpath(__DIR__ . '/../../' . ($this->conf['cachedir'] ?? 'cache'));
     }
 
     /**
@@ -49,15 +59,7 @@ class PlanetConfig
         $config = new PlanetConfig([], true, $sitePrefix);
 
         if (!$config->isInstalled()) {
-            // pre10 versions won't require $sitePrefix
-            if (!$config->isInstalledPre10Version()) {
-                return $config;
-            }
-
-            if (!$config->migratePre10Version()) {
-                error_log('Failed to migrate configuration.');
-                return $config;
-            }
+            return $config;
         }
 
         $configFile = realpath($config->getConfigFile());
@@ -98,14 +100,6 @@ class PlanetConfig
         );
     }
 
-    public function saveAdminPassword(string $hash) : int
-    {
-        return file_put_contents(
-            $this->getAuthInc(),
-            sprintf('<?php $login="admin"; $password="%s"; ?>', $hash)
-        );
-    }
-
     /**
      * Is moonmoon installed?
      *
@@ -113,53 +107,29 @@ class PlanetConfig
      */
     public function isInstalled() : bool
     {
-        return file_exists($this->getConfigFile()) &&
-            file_exists($this->getOpmlFile());
-    }
+        if (file_exists($this->getConfigFile()) &&
+            file_exists($this->getOpmlFile())) {
+            return true;
+        }
 
-    /**
-     * Or is it a pre-10 version installed?
-     * (that is, config is stored in custom/config.yml instead of custom/config/config.yml)
-     */
-    public function isInstalledPre10Version(): bool
-    {
-        return file_exists(custom_path('config.yml')) &&
-            file_exists(custom_path('people.opml'));
-    }
-
-    /**
-     * Migrate config files from old to new location.
-     * Purge cache.
-     *
-     * @return bool true if succeeded, false otherwise
-     */
-    public function migratePre10Version() : bool
-    {
-        if (!is_dir(self::config_path())) {
-            if (!mkdir(self::config_path(), 0777, true)) {
-                return false;
+        // if old install <=9.x, migrate it
+        if (file_exists(__DIR__ . '/../../custom/config.yml')) {
+            if (!is_dir($this->configDir)) {
+                if (!mkdir($this->configDir, 0777, true)) {
+                    error_log('Could not create config directory.');
+                    return false;
+                }
             }
+            rename(__DIR__ . '/../../custom/config.yml', $this->getConfigFile());
+            rename(__DIR__ . '/../../custom/people.opml', $this->getOpmlFile());
+            rename(__DIR__ . '/../../admin/pwd.inc.php', $this->configDir . '/pwd.inc.php');
+
+            return true;
         }
 
-        return self::migrate_file('config.yml') &&
-            self::migrate_file('people.opml');
+        return false;
     }
 
-    public static function migrate_file(string $file) : bool
-    {
-        $source = custom_path($file);
-        $dest = self::config_path($file);
-        if (!copy($source, $source . '.bak')) {
-            error_log("Failed to make a backup of ${source}");
-            return false;
-        }
-        if (!rename($source, $dest)) {
-            error_log("Failed to move ${source} to ${dest}");
-            return false;
-        }
-
-        return true;
-    }
     /**
      * @param array<string,mixed> $userConfig
      */
@@ -202,39 +172,35 @@ class PlanetConfig
 
     public function getCacheRootDir() : string
     {
-        return realpath(__DIR__ . '/../../' . $this->conf['cachedir']);
+        return $this->cacheRootDir;
     }
 
     public function getCacheDir() : string
     {
-        if (is_null($this->cacheDir)) {
-            $this->cacheDir = $this->getCacheRootDir();
-            if (!empty($this->sitePrefix)) {
-                $this->cacheDir .= '/' . $this->sitePrefix;
-            }
+        if (!empty($this->sitePrefix)) {
+            return $this->cacheRootDir . '/' . $this->sitePrefix;
         }
-        return $this->cacheDir;
+        return $this->cacheRootDir;
+    }
+
+    public function getConfigDir() : string
+    {
+        return $this->configDir;
     }
 
     public function getOpmlFile() : string
     {
-        if (is_null($this->opmlFile)) {
-            $this->opmlFile = self::config_path('people.opml', $this->sitePrefix);
-        }
-        return $this->opmlFile;
+        return $this->configDir . '/people.opml';
     }
 
     public function getConfigFile() : string
     {
-        return self::config_path('config.yml', $this->sitePrefix);
+        return $this->configDir . '/config.yml';
     }
 
-    public function getAuthInc() : string
+    public function getAuthFile() : string
     {
-        if (is_null($this->authInc)) {
-            $this->authInc = self::config_path('pwd.inc.php', $this->sitePrefix);
-        }
-        return $this->authInc;
+        return $this->configDir . '/pwd.inc.php';
     }
 
     public function getOutputTimeout() : int

@@ -11,6 +11,7 @@ $moon_version = trim(file_get_contents(__DIR__.'/../VERSION'));
 session_start();
 
 $PlanetConfig = PlanetConfig::load($sitePrefix);
+$Auth = new Authentication($PlanetConfig->getAuthFile());
 $Planet = new Planet($PlanetConfig);
 
 if ($PlanetConfig->getDebug()) {

@@ -29,12 +29,15 @@ if ($PlanetConfig->isInstalled()) {
     $PlanetConfig->setConfig($config);
     $save['config'] = (int) $PlanetConfig->saveConfig();
     OpmlManager::save(new Opml(), $PlanetConfig->getOpmlFile());
-    $save['password'] = (int) $PlanetConfig->saveAdminPassword(hash('sha256', $_POST['password']));
+    $save['password'] = $Auth->changePassword($_POST['password']);
 
     if (0 != ($save['config'] + $save['password'])) {
         $status = 'installed';
     }
 } else {
+    $strInstall = '';
+    $strRecommandation = '';
+
     // We start by malking sure we have PHP7 as a base requirement
     if (version_compare(PHP_VERSION, '7.2.0') >= 0) {
         $strInstall = installStatus('Server is running at least PHP 7.2', 'OK', true);
@@ -86,7 +89,7 @@ if ($PlanetConfig->isInstalled()) {
     $tests = array(
         $PlanetConfig->getConfigFile(),
         $PlanetConfig->getOpmlFile(),
-        $PlanetConfig->getAuthInc(),
+        $PlanetConfig->getAuthFile(),
         $PlanetConfig->getCacheDir() . '/test_cache'
     );
 

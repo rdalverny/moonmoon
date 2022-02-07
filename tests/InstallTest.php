@@ -62,47 +62,6 @@ class InstallTest extends GuzzleHarness
         return $res;
     }
 
-
-    public function testMigratePre10SetupAuto()
-    {
-        $cf = new PlanetConfig();
-        $this->assertEquals(false, $cf->isInstalledPre10Version(), "Planet is not installed /old config");
-        $this->assertEquals(false, $cf->isInstalled(), "Planet is not installed /new config");
-
-        file_put_contents(custom_path('config.yml'), $cf->toYaml());
-        OpmlManager::save(new Opml(), custom_path('people.opml'));
-
-        $this->assertEquals(true, $cf->isInstalledPre10Version(), "Planet is installed /old config");
-        $this->assertEquals(false, $cf->isInstalled(), "Planet is not installed /new config");
-
-        // explicitly migrate
-        $this->assertEquals(true, $cf->migratePre10Version(), "Migration succeeded");
-
-        $this->assertEquals(true, $cf->isInstalled(), "Planet is installed /new config");
-        $this->assertFileExists(custom_path('config.yml.bak'), "Backup config is kept");
-        $this->assertFileExists(custom_path('people.opml.bak'), "Backup OPML is kept");
-    }
-
-    public function testMigratePre10SetupIndex()
-    {
-        $cf = new PlanetConfig();
-        $this->assertEquals(false, $cf->isInstalledPre10Version(), "Planet is not installed /old config");
-        $this->assertEquals(false, $cf->isInstalled(), "Planet is not installed /new config");
-
-        file_put_contents(custom_path('config.yml'), $cf->toYaml());
-        OpmlManager::save(new Opml(), custom_path('people.opml'));
-
-        $this->assertEquals(true, $cf->isInstalledPre10Version(), "Planet is installed /old config");
-        $this->assertEquals(false, $cf->isInstalled(), "Planet is not installed /new config");
-
-        // call through web interface
-        $this->client->get('/');
-
-        $this->assertEquals(true, $cf->isInstalled(), "Planet is installed /new config");
-        $this->assertFileExists(custom_path('config.yml.bak'), "Backup config is kept");
-        $this->assertFileExists(custom_path('people.opml.bak'), "Backup OPML is kept");
-    }
-
     public function testFetchPublicOPML()
     {
         $res = self::test_install_button();

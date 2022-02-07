@@ -6,7 +6,7 @@ if (!$PlanetConfig->isInstalled()) {
     die('<p>' . _g('You might want to <a href="../install.php">install moonmoon</a>.') . '</p>');
 }
 
-require_once __DIR__ . '/inc/auth.inc.php';
+$Auth->redirectIfNotAuthenticated();
 
 //Instantiate app
 $Planet = new Planet($PlanetConfig);
