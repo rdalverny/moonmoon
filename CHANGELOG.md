@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [10.0.0-rc.3] - 2022-05-06
+
+### Enhancements
+
+- New authentication system
+  ([cd921cc](https://github.com/rdalverny/moonmoon/commit/cd921cc),
+  from [#80](https://github.com/moonmoon/moonmoon/issues/80))
+- Readjusted font sizes on front page
+
+### Bugs
+
+- Fixed `<audio>`/`<video>` behavior
+  (fixes [#112](https://github.com/moonmoon/moonmoon/issues/112),
+  which depended on upstream
+  [simplepie/simplepie#716](https://github.com/simplepie/simplepie/issues/716))
+
 
 ## [10.0.0-rc.2] - 2022-02-05
 
@@ -130,7 +146,8 @@ The RC will be available for a few weeks. If not bug is reported, it will become
 
 ---
 
-[Unreleased]: https://github.com/rdalverny/moonmoon/compare/10.0.0-rc.2...10-dev
+[Unreleased]: https://github.com/rdalverny/moonmoon/compare/10.0.0-rc.3...10-dev
+[10.0.0-rc.3]: https://github.com/rdalverny/moonmoon/compare/10.0.0-rc2....10.0.0-rc.3
 [10.0.0-rc.2]: https://github.com/rdalverny/moonmoon/compare/10.0.0-rc...10.0.0-rc.2
 [10.0.0-rc]: https://github.com/rdalverny/moonmoon/releases/tag/10.0.0-rc
 [9.x]: https://github.com/rdalverny/moonmoon/tree/9.x

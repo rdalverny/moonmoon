@@ -11,3 +11,5 @@ nbproject/private/
 tests/_output/*
 tmp/
 vendor/
+
+!.keep
