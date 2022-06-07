@@ -26,6 +26,7 @@ class PlanetConfig
         'items'      => 10,
         'refresh'    => 3600,
         'cache'      => 1800,
+        'print_full_post'   => true,
         'categories' => '',
         'cachedir'   => './cache',
         'debug'      => false,
@@ -257,6 +258,11 @@ class PlanetConfig
     public function getSitePrefix() : string
     {
         return $this->sitePrefix;
+    }
+
+    public function showFullPost(): bool
+    {
+        return $this->conf['print_full_post'] ?? true;
     }
 
     /**

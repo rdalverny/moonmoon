@@ -156,3 +156,11 @@ function humanFilesize(int $bytes, int $decimals = 2) : string
     $factor = floor(log($bytes, 1024));
     return sprintf("%.{$decimals}f ", $bytes / pow(1024, $factor)) . ['B', 'KB', 'MB', 'GB', 'TB', 'PB'][$factor];
 }
+
+function contains_html(string $input) : bool
+{
+    if (str_contains($input, '</p>') || str_contains($input, '<br')) {
+        return true;
+    }
+    return false;
+}

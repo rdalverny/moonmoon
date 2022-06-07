@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Better support for enclosures
+  (fixes [#100](https://github.com/moonmoon/moonmoon/issues/100))
+
 ## [10.0.0-rc.3] - 2022-05-06
 
 ### Enhancements

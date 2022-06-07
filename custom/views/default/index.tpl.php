@@ -63,7 +63,14 @@ header('Content-type: text/html; charset=UTF-8');
                             ?>
                         </p>
                         <div class="article-content">
-                            <?php echo $item->get_content(); ?>
+                            <?php
+                            $text = $PlanetConfig->showFullPost() ? $item->get_content() : $item->get_description();
+                            echo contains_html($text) ? $text : nl2br($text);
+                            $enclosures = $item->get_enclosures();
+                            if ($enclosures) {
+                                echo $enclosures[0]->native_embed();
+                            }
+                            ?>
                         </div>
                     </div>
                     <?php if (++$count == $limit) {
